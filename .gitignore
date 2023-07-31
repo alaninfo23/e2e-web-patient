@@ -1,0 +1,7 @@
+# Ignorar a pasta node_modules
+node_modules/
+
+# Ignorar as pastas geradas pelo Cypress
+cypress/videos/
+cypress/screenshots/
+cypress.env.json
