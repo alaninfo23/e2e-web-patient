@@ -1,4 +1,5 @@
-import * as loginHelper from "./helpers/loginHelper";
+import { faker } from "@faker-js/faker";
+import * as loginHelper from "../helpers/loginHelper";
 
 describe("Login page", () => {
   beforeEach(() => {
@@ -13,13 +14,17 @@ describe("Login page", () => {
     cy.contains("Please enter your account information");
   });
 
+  it("should display text label: Email", () => {
+    cy.getByDataTestID("EMAIL_TEXT_FIELD").contains("Email");
+  });
+
   it("should display text: Don't have an account yet?", () => {
     cy.contains("Don't have an account yet?");
   });
 
-  it('should display text: Keep me logged in?', () => {
+  it("should display text: Keep me logged in?", () => {
     cy.contains("Keep me logged in");
-  })
+  });
   it("should check if selection box 'Keep me logged in' is unchecked", () => {
     cy.get(loginHelper.LINK_REMEMBER_ME).should("not.be.checked");
   });
@@ -27,14 +32,14 @@ describe("Login page", () => {
   it("should display fields email visible.", () => {
     cy.get(loginHelper.INPUT_LOGIN_EMAIL).should("be.visible");
   });
-  
+
   it("should display fields password visible.", () => {
     cy.get(loginHelper.INPUT_LOGIN_PASSWORD).should("be.visible");
-  })
-  
+  });
+
   it("should display login button visible.", () => {
     cy.get(loginHelper.BUTTON_LOGIN).should("be.visible");
-  })
+  });
 
   it("should display link Forgot password? is visible.", () => {
     cy.get(loginHelper.LINK_CREATE_NEW_ACCOUNT).should("be.visible");
@@ -84,7 +89,7 @@ describe("Login page", () => {
   });
 });
 
-describe.only("Forgot password page", () => {
+describe("Forgot password page", () => {
   it("should check if the page 'Forgot password?' open correctly", () => {
     cy.visit("/");
     cy.get(loginHelper.LINK_FORGOT_PASSWORD).click();
@@ -98,21 +103,40 @@ describe.only("Forgot password page", () => {
   });
 
   it("should show error message when email is empty", () => {
-    cy.visit('https://qa.faethdigitalhealth.com/forgot-password');
+    cy.visit("https://qa.faethdigitalhealth.com/forgot-password");
     cy.get('button[type="submit"]').click();
-    cy.contains('Please type a valid email format.')
-  })
+    cy.contains("Please type a valid email format.");
+  });
 
   it("should show error message when email is invalid", () => {
-    cy.visit('https://qa.faethdigitalhealth.com/forgot-password');
-    cy.get('input[name="email"]').type('test@@test.com');
+    cy.visit("https://qa.faethdigitalhealth.com/forgot-password");
+    cy.get('input[name="email"]').type("test@@test.com");
     cy.get('button[type="submit"]').click();
-    cy.contains('Please type a valid email format.')
-  })
+    cy.contains("Please type a valid email format.");
+  });
 
   it("should open the reset-password page after typing email and clicking confirm", () => {
-    
-  })
+    cy.visit("https://qa.faethdigitalhealth.com/forgot-password");
+    const emailFake = faker.internet.email();
+
+    // Captura a parte inicial e final do email gerado, cortando a parte ".com"
+    const [username, domain] = emailFake.split("@");
+    const domainWithoutCom = domain.replace(".com", "");
+    const emailPart = `${username.substr(0, 1)}***@${domainWithoutCom.substr(
+      0,
+      1
+    )}***`;
+    cy.get('input[name="email"]').type(emailFake);
+    cy.get('button[type="submit"]').click();
+    cy.wait(1000);
+    cy.url().should("eq", "https://qa.faethdigitalhealth.com/reset-password");
+    cy.contains("We sent you a code via email");
+    cy.contains(`Please enter the 6 digit code sent to ${emailPart}`);
+    cy.contains("Enter your new password");
+    cy.contains("Confirm New Password");
+  });
+
+  it("should show message 'We sent you a code via email'", () => {});
 });
 
 describe("Create new account page", () => {
