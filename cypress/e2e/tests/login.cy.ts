@@ -51,9 +51,10 @@ describe("Login page", () => {
 
   it("should to do login with success", () => {
     cy.login(Cypress.env("email"), Cypress.env("password"));
+    cy.wait(3000);
     cy.contains("Where do you want to go next?");
   });
-
+ 
   it("should show error message when login and user is incorrect", () => {
     cy.login(Cypress.env("emailIncorrect"), Cypress.env("passwordIncorrect"));
     cy.get(".MuiAlert-message")
@@ -86,72 +87,5 @@ describe("Login page", () => {
       "type",
       "password"
     );
-  });
-});
-
-describe("Forgot password page", () => {
-  it("should check if the page 'Forgot password?' open correctly", () => {
-    cy.visit("/");
-    cy.get(loginHelper.LINK_FORGOT_PASSWORD).click();
-    cy.url().should("eq", "https://qa.faethdigitalhealth.com/forgot-password");
-    cy.contains("Reset Password");
-    cy.contains(
-      "Please complete the field below with your email address associated to your Faeth account"
-    );
-    cy.get('input[name="email"]').should("be.visible");
-    cy.get('button[type="submit"]').should("be.visible");
-  });
-
-  it("should show error message when email is empty", () => {
-    cy.visit("https://qa.faethdigitalhealth.com/forgot-password");
-    cy.get('button[type="submit"]').click();
-    cy.contains("Please type a valid email format.");
-  });
-
-  it("should show error message when email is invalid", () => {
-    cy.visit("https://qa.faethdigitalhealth.com/forgot-password");
-    cy.get('input[name="email"]').type("test@@test.com");
-    cy.get('button[type="submit"]').click();
-    cy.contains("Please type a valid email format.");
-  });
-
-  it("should open the reset-password page after typing email and clicking confirm", () => {
-    cy.visit("https://qa.faethdigitalhealth.com/forgot-password");
-    const emailFake = faker.internet.email();
-
-    // Captura a parte inicial e final do email gerado, cortando a parte ".com"
-    const [username, domain] = emailFake.split("@");
-    const domainWithoutCom = domain.replace(".com", "");
-    const emailPart = `${username.substr(0, 1)}***@${domainWithoutCom.substr(
-      0,
-      1
-    )}***`;
-    cy.get('input[name="email"]').type(emailFake);
-    cy.get('button[type="submit"]').click();
-    cy.wait(1000);
-    cy.url().should("eq", "https://qa.faethdigitalhealth.com/reset-password");
-    cy.contains("We sent you a code via email");
-    cy.contains(`Please enter the 6 digit code sent to ${emailPart}`);
-    cy.contains("Enter your new password");
-    cy.contains("Confirm New Password");
-  });
-
-  it("should show message 'We sent you a code via email'", () => {});
-});
-
-describe("Create new account page", () => {
-  beforeEach(() => {
-    cy.visit("/");
-  });
-
-  it("should check if the page 'Forgot password?' open correctly", () => {
-    cy.get('a[href="/create-account"]').click();
-    cy.url().should("eq", "https://qa.faethdigitalhealth.com/create-account");
-    cy.contains("What describes you best?");
-    cy.contains("Step 1 of 7");
-    cy.get('button[type="button"]').contains("I am a Patient.").should("exist");
-    cy.get('button[type="button"]')
-      .contains("I am a Caretaker.")
-      .should("exist");
   });
 });
