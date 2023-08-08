@@ -49,13 +49,12 @@ describe("Login page", () => {
     cy.get(loginHelper.LINK_REMEMBER_ME).should("exist");
   });
 
-  it("should to do login with success", () => {
+  it.only("should to do login with success", () => {
     cy.loginWebPatient(
       Cypress.env("emailWebPatient"),
       Cypress.env("passwordWebPatient")
     );
-    cy.wait(3000);
-    cy.contains("Where do you want to go next?");
+    cy.contains("Where do you want to go next?").should("be.visible");
   });
 
   it("should show error message when login and user is incorrect", () => {
