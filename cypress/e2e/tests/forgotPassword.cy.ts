@@ -1,5 +1,6 @@
 import { faker } from "@faker-js/faker";
 import * as loginHelper from "../helpers/loginHelper";
+import * as forgotPasswordHelper from "../helpers/forgotPassowordHelper.cy";
 
 describe("Forgot password page", () => {
     it("should check if the page 'Forgot password?' open correctly", () => {
@@ -10,20 +11,20 @@ describe("Forgot password page", () => {
       cy.contains(
         "Please complete the field below with your email address associated to your Faeth account"
       );
-      cy.get('input[name="email"]').should("be.visible");
-      cy.get('button[type="submit"]').should("be.visible");
+      cy.get(forgotPasswordHelper.INPUT_EMAIL_FORGOT_PASSWORD).should("be.visible");
+      cy.get(forgotPasswordHelper.BUTTON_FORGOT_PASSWORD).should("be.visible");
     });
   
     it("should show error message when email is empty", () => {
       cy.visit("https://qa.faethdigitalhealth.com/forgot-password");
-      cy.get('button[type="submit"]').click();
+      cy.get(forgotPasswordHelper.BUTTON_FORGOT_PASSWORD).click();
       cy.contains("Please type a valid email format.");
     });
   
     it("should show error message when email is invalid", () => {
       cy.visit("https://qa.faethdigitalhealth.com/forgot-password");
-      cy.get('input[name="email"]').type("test@@test.com");
-      cy.get('button[type="submit"]').click();
+      cy.get(forgotPasswordHelper.INPUT_EMAIL_FORGOT_PASSWORD).type("test@@test.com");
+      cy.get(forgotPasswordHelper.BUTTON_FORGOT_PASSWORD).click();
       cy.contains("Please type a valid email format.");
     });
   
@@ -38,8 +39,8 @@ describe("Forgot password page", () => {
         0,
         1
       )}***`;
-      cy.get('input[name="email"]').type(emailFake);
-      cy.get('button[type="submit"]').click();
+      cy.get(forgotPasswordHelper.INPUT_EMAIL_FORGOT_PASSWORD).type(emailFake);
+      cy.get(forgotPasswordHelper.BUTTON_FORGOT_PASSWORD).click();
       cy.wait(1000);
       cy.url().should("eq", "https://qa.faethdigitalhealth.com/reset-password");
       cy.contains("We sent you a code via email");
@@ -48,5 +49,4 @@ describe("Forgot password page", () => {
       cy.contains("Confirm New Password");
     });
   
-    it("should show message 'We sent you a code via email'", () => {});
   });

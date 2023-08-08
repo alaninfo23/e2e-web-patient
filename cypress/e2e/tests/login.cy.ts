@@ -50,20 +50,26 @@ describe("Login page", () => {
   });
 
   it("should to do login with success", () => {
-    cy.login(Cypress.env("email"), Cypress.env("password"));
+    cy.loginWebPatient(
+      Cypress.env("emailWebPatient"),
+      Cypress.env("passwordWebPatient")
+    );
     cy.wait(3000);
     cy.contains("Where do you want to go next?");
   });
- 
+
   it("should show error message when login and user is incorrect", () => {
-    cy.login(Cypress.env("emailIncorrect"), Cypress.env("passwordIncorrect"));
-    cy.get(".MuiAlert-message")
+    cy.loginWebPatient(
+      Cypress.env("emailIncorrect"),
+      Cypress.env("passwordIncorrect")
+    );
+    cy.get(loginHelper.ALERT_MSG_LOGIN_INCORRECT)
       .should("be.visible")
       .contains("Incorrect username or password.");
   });
 
   it("should show error if login without username and password", () => {
-    cy.login(Cypress.env("emailEmpty"), Cypress.env("passwordEmpty"));
+    cy.loginWebPatient(Cypress.env("emailEmpty"), Cypress.env("passwordEmpty"));
     cy.contains("Email is a required field");
     cy.contains("Password is a required field");
   });
