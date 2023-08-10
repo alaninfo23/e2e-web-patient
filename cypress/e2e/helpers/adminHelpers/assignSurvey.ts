@@ -53,16 +53,13 @@ export const assignSurveyToPatient = () => {
   const currentDate = moment().format("MM/DD/YYYY");
   cy.get('input[name="date"][placeholder="MM/DD/YYYY"]').type(currentDate);
 
-  //const currentTime = moment().format("HH:mm");
-  //cy.get('input[name="time"][placeholder="hh:mm"]').type('14:00');
+  const currentTime = moment().format("HH:mm");
+  cy.get('input[name="time"][placeholder="hh:mm"]').type('02:00');
 
   cy.get('input[name="time"]').then($input => {
     $input.val('14:00');
     cy.wrap($input).trigger('input');
   });
-
-  //cy.get('div[aria-labelledby="mui-component-select-frequency"]').click();
-  //cy.get('li[role="option"]').should("be.visible").contains("Once").click();
 
   cy.getByDataTestID(assignSurvey.BUTTON_ASSIGN_DIALOG_ID)
     .should("be.visible")

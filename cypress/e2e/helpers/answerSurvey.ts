@@ -9,6 +9,9 @@ export const INPUT_VALUE_LBS: string = "input.MuiInputBase-input";
 export const TEXT_LBS: string = "p.MuiTypography-root";
 export const IMG_PROGRESS_BAR_50: string =
   'span[role="progressbar"][aria-valuenow="50"]';
+export const IMG_PROGRESS_BAR_100: string =
+  'span[role="progressbar"][aria-valuenow="100"]';
+
 export const TEXT_VALUE_PROGRESS_BAR: string = "p.MuiTypography-root";
 export const BUTTON_NEXT: string = "button.MuiButton-containedPrimary";
 export const SNACK_BAR_ALERT_COMPLETED: string =
@@ -23,7 +26,6 @@ export const verifySurveyCard = () => {
 
   const currentDate = moment().format("MMM D");
   const currentTime = moment().format("hh:mm A");
-
   const expectedText = `Once on ${currentDate} at ${currentTime}`;
 
   cy.contains("h6", expectedText).should("be.visible");
@@ -56,11 +58,12 @@ export const verifyWeightScreenContent = () => {
   cy.get(TEXT_VALUE_PROGRESS_BAR).should("contain", "50%");
 };
 
-export const verifyMsgErrorWeightScreenContentConfirm = (weight: string) => {
-  cy.get(INPUT_VALUE_LBS).type(weight);
+export const verifyMsgErrorWeightScreenContent = (weight: string) => {
+  cy.get(INPUT_VALUE_LBS).clear().type(weight);
+  cy.get(BUTTON_NEXT).contains("Next").click();
   cy.get("p.MuiFormHelperText-root.Mui-error")
-    .should("be.visible")
-    .and("contain", "Please insert a value between 65 - 700 lbs");
+  .should("be.visible")
+  .and("contain", "Please insert a value between 65 - 700 lbs");
 };
 
 export const verifyWeightScreenContentConfirm = () => {
@@ -68,6 +71,9 @@ export const verifyWeightScreenContentConfirm = () => {
   cy.contains("What is your weight today?");
   cy.contains("165.0 lbs");
   cy.contains("button", "Previous").should("be.visible");
+
+  cy.get(IMG_PROGRESS_BAR_100).should("exist");
+  cy.get(TEXT_VALUE_PROGRESS_BAR).should("contain", "100%");
 };
 
 export const submitSurvey = () => {

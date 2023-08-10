@@ -30,16 +30,11 @@ describe("Serabelisib - Body Weight", () => {
 
     answerSurvey.verifySurveyCard();
     answerSurvey.verifyWeightScreenContent();
-    cy.get(answerSurvey.INPUT_VALUE_LBS).type("1650");
+    answerSurvey.verifyMsgErrorWeightScreenContent("64.0");
+    answerSurvey.verifyMsgErrorWeightScreenContent("750.0");
+    cy.get(answerSurvey.INPUT_VALUE_LBS).clear().type("165.0");
     answerSurvey.verifyWeightScreenContentConfirm();
     answerSurvey.submitSurvey();
   });
 
-  it("Should display error notification if weight entered is less than 65 or greater than 700 lbs", () => {
-
-    answerSurvey.verifySurveyCard();
-    answerSurvey.verifyWeightScreenContent();
-    answerSurvey.verifyMsgErrorWeightScreenContentConfirm("64.0");
-    answerSurvey.verifyMsgErrorWeightScreenContentConfirm("750.0");
-  });
 });
