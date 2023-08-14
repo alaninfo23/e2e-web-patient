@@ -1,10 +1,10 @@
 import moment from "moment";
 import "moment/min/locales";
 
-import * as homeHelpers from "../helpers/homeHelpers";
+import * as assignSurvey from "../helpers/adminHelpers/assignSurvey";
 
 export const TEXT_DATE: string = "p.MuiTypography-body1.css-xhbppr";
-export const BUTTON_CLOSE: string = "button.MuiButton-root";
+export const BUTTON_CLOSE: string = "button";
 export const INPUT_VALUE_LBS: string = "input.MuiInputBase-input";
 export const TEXT_LBS: string = "p.MuiTypography-root";
 export const IMG_PROGRESS_BAR_50: string =
@@ -18,24 +18,17 @@ export const SNACK_BAR_ALERT_COMPLETED: string =
   '[data-testid="SNACK_BAR_ALERT"]';
 
 export const verifySurveyCard = () => {
-  cy.get(homeHelpers.BUTTON_SURVEY_CARD("Surveys"))
-    .should("be.visible")
-    .click();
   cy.contains("h6", "SER-ISD-001 - Body Weight");
   cy.contains("h6", "OPEN");
 
   const currentDate = moment().format("MMM D");
-  const currentTime = moment().format("hh:mm A");
-  const expectedText = `Once on ${currentDate} at ${currentTime}`;
-
-  cy.contains("h6", expectedText).should("be.visible");
+  const expectedText = `Once on ${currentDate} at ${assignSurvey.calculatedTime}`;
+  cy.log(expectedText);
+  cy.contains("h6", expectedText);
 };
 
 export const verifyWeightScreenContent = () => {
-  cy.get('[data-testid="SURVEY_CARD_SER-ISD-001 - Body Weight"]').click();
-
-  cy.get(BUTTON_CLOSE).should("contain", "Close");
-
+  cy.contains(BUTTON_CLOSE, "Close");
   cy.contains("h4", "SER-ISD-001 - Body Weight");
 
   cy.get(TEXT_DATE)
@@ -53,23 +46,29 @@ export const verifyWeightScreenContent = () => {
   cy.contains("*Required");
   cy.get(INPUT_VALUE_LBS).should("have.attr", "placeholder", "000.0");
   cy.get(TEXT_LBS).should("contain", "lbs");
-  cy.contains("Please insert a value between 65 - 700 lbs");
+
   cy.get(IMG_PROGRESS_BAR_50).should("exist");
   cy.get(TEXT_VALUE_PROGRESS_BAR).should("contain", "50%");
 };
 
-export const verifyMsgErrorWeightScreenContent = (weight: string) => {
-  cy.get(INPUT_VALUE_LBS).clear().type(weight);
-  cy.get(BUTTON_NEXT).contains("Next").click();
-  cy.get("p.MuiFormHelperText-root.Mui-error")
-  .should("be.visible")
-  .and("contain", "Please insert a value between 65 - 700 lbs");
+export const verifyMsgWeightScreenContent = (showMsgError: boolean) => {
+  if (showMsgError) {
+    cy.get("p.MuiFormHelperText-root.Mui-error")
+      .should("be.visible")
+      .and("contain", "Please insert a value between 65 - 700 lbs");
+  } else {
+    cy.get("p.MuiFormHelperText-root.Mui-error").should("not.exist");
+    cy.contains("button", "Previous").click();
+  }
 };
 
-export const verifyWeightScreenContentConfirm = () => {
+export const verifyWeightScreenContentConfirm = (weightInLbs: string) => {
   cy.get(BUTTON_NEXT).contains("Next").click();
+
+  cy.get(BUTTON_CLOSE).should("contain", "Close");
+  cy.contains("h4", "SER-ISD-001 - Body Weight");
   cy.contains("What is your weight today?");
-  cy.contains("165.0 lbs");
+  cy.contains(`${weightInLbs} lbs`);
   cy.contains("button", "Previous").should("be.visible");
 
   cy.get(IMG_PROGRESS_BAR_100).should("exist");
@@ -82,3 +81,4 @@ export const submitSurvey = () => {
     .should("be.visible")
     .contains("Survey completed. Great job!");
 };
+

@@ -13,7 +13,7 @@ export const loginWebAdmin = (email: string, senha: string) => {
   cy.get(INPUT_LOGIN_EMAIL).type(email);
   cy.get(INPUT_LOGIN_PASSWORD).type(senha);
   cy.get(BUTTON_LOGIN).click();
-  cy.wait(18000);
+  cy.wait(15000)
 };
 
 export const loginWebPatient = (email: string, senha: string) => {
@@ -24,3 +24,5 @@ export const loginWebPatient = (email: string, senha: string) => {
   cy.get(BUTTON_LOGIN).click();
   cy.wait(4000);
 };
+
+
