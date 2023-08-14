@@ -35,6 +35,11 @@ export const calculateAndFormatAdjustedTime = () => {
   return formattedTime;
 };
 export const calculatedTime = calculateAndFormatAdjustedTime();
+
+export const clearSessionData = () => {
+  cy.clearCookies();
+  cy.clearLocalStorage();
+}
 export const assignSurveyToPatient = (
   patientName: string,
   scheduleName: string

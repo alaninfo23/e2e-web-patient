@@ -6,6 +6,7 @@ import { assign } from "cypress/types/lodash";
 
 describe("Serabelisib - Body Weight", () => {
   beforeEach(() => {
+    assignSurvey.clearSessionData();
     loginHelper.loginWebAdmin(
       Cypress.env("emailAdmin"),
       Cypress.env("passwordAdmin")
@@ -15,7 +16,8 @@ describe("Serabelisib - Body Weight", () => {
       "SER-ISD-001 - Body Weight"
     );
     assignSurvey.logoutWebAdmin();
-
+    
+    assignSurvey.clearSessionData();
     loginHelper.loginWebPatient(
       Cypress.env("emailWebPatient"),
       Cypress.env("passwordWebPatient")
@@ -29,6 +31,8 @@ describe("Serabelisib - Body Weight", () => {
   afterEach(() => {
     cy.wait(4000);
     assignSurvey.logoutWebPatient();
+    
+    assignSurvey.clearSessionData();
     loginHelper.loginWebAdmin(
       Cypress.env("emailAdmin"),
       Cypress.env("passwordAdmin")
@@ -73,3 +77,4 @@ describe("Serabelisib - Body Weight", () => {
     answerSurvey.verifyMsgWeightScreenContent(true);
   });
 });
+
