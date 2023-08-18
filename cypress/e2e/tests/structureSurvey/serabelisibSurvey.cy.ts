@@ -16,7 +16,7 @@ describe("Serabelisib - Body Weight", () => {
     );
     adminHelpers.assignSurveyToPatient(
       "Alan Patient 20",
-      "SER-ISD-001 - Body Weight",
+      surveyStrings.SERISD001_BODY_WEIGHT,
     );
     adminHelpers.logoutWebAdmin();
 
@@ -39,7 +39,7 @@ describe("Serabelisib - Body Weight", () => {
     );
     adminHelpers.unassignSurveyToPatient(
       "Alan Patient 20",
-      "SER-ISD-001 - Body Weight",
+      surveyStrings.SERISD001_BODY_WEIGHT,
     );
     adminHelpers.logoutWebAdmin();
   });
