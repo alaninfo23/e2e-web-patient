@@ -2,7 +2,7 @@ import "moment/min/locales";
 import { format } from "date-fns";
 
 import * as surveyStrings from "../strings/surveyStrings";
-import * as generalStrings from "../helpers/generalStrings"
+import * as generalStrings from "../helpers/generalStrings";
 
 export const SERISD001_BODY_WEIGHT_ID: string =
   '[data-testid="SURVEY_CARD_SER-ISD-001 - Body Weight"]';
@@ -42,8 +42,8 @@ export const verifySurveyCard = (
 };
 
 export const verifyWeightScreenContent = () => {
-  cy.contains(BUTTON, surveyStrings.CLOSE).should('be.visible');
-  cy.contains("h4", surveyStrings.SERISD001_BODY_WEIGHT).should('be.visible');
+  cy.contains(BUTTON, surveyStrings.CLOSE).should("be.visible");
+  cy.contains("h4", surveyStrings.SERISD001_BODY_WEIGHT).should("be.visible");
 
   const currentDate = new Date();
   const formattedDateText = format(currentDate, "EEEE, MMMM dd");
@@ -76,7 +76,7 @@ export const verifyWeightIntervalMsgError = (showMsgError: boolean) => {
 export const verifyBodyWeightConfirmScreen = (weightInLbs: string) => {
   cy.get(PRIMARY_BUTTON).contains(generalStrings.NEXT).click();
 
-  cy.contains(BUTTON, surveyStrings.CLOSE).should('be.visible');
+  cy.contains(BUTTON, surveyStrings.CLOSE).should("be.visible");
   cy.contains("h4", surveyStrings.SERISD001_BODY_WEIGHT);
   cy.contains(surveyStrings.WHAT_IS_YOUR_WEIGHT_TODAY);
   cy.contains(`${weightInLbs} ${surveyStrings.LBS}`);
@@ -91,4 +91,5 @@ export const submitSurvey = () => {
   cy.get(SNACK_BAR_ALERT_ID)
     .should("be.visible")
     .contains(surveyStrings.SURVEY_COMPLETED);
+  cy.wait(10000);
 };

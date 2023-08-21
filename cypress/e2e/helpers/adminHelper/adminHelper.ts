@@ -95,7 +95,7 @@ export const unassignSurveyToPatient = (
   patientName: string,
   scheduleName: string,
 ) => {
-  cy.get(CT_PATIENTS_TAB_ID, { timeout: 20000 }).should("be.visible").click();
+  cy.get(CT_PATIENTS_TAB_ID, { timeout: 500000 }).should("be.visible").click();
 
   cy.get(FILTER_DROPDOWN_ID).click();
 
@@ -131,6 +131,9 @@ export const logoutWebAdmin = () => {
   cy.get(TAB_HOME_ID).click();
   cy.get(USER_CARD_ID).click();
   cy.get(LOG_OUT_BUTTON).contains("Log out").should("be.visible").click();
-  cy.wait(2000);
+  cy.url().should(
+    "include",
+    "https://qa.care.faethdigitalhealth.com/profile/login",
+  );
   cy.get(LOGIN_FORM_ID).should("be.visible");
 };

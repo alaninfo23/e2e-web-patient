@@ -1,3 +1,4 @@
+import * as surveyHelper from "../helpers/surveyHelper";
 export const LOGIN_FORM_ID: string = '[data-testid="LOGIN_FORM"]';
 export const LOGIN_EMAIL_INPUT: string = 'input[name="username"]';
 export const LOGIN_PASSWORD_INPUT: string = 'input[name="password"]';
@@ -21,9 +22,8 @@ export const loginWebPatient = (email: string, senha: string) => {
 };
 
 export const logoutWebPatient = () => {
-  cy.wait(6000);
   cy.get(OPEN_MENU_ICON_ID).should("be.visible").click();
-  cy.get(LOG_OUT_OPTION_ID).click();
-  cy.wait(2000);
+  cy.get(LOG_OUT_OPTION_ID).should("be.visible").click();
   cy.get(LOGIN_FORM_ID).should("be.visible");
+  cy.url().should("include", "https://qa.faethdigitalhealth.com/");
 };
