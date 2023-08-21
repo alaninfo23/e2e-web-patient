@@ -1,8 +1,28 @@
-export const INPUT_LOGIN_EMAIL: string = 'input[name="username"]';
-export const INPUT_LOGIN_PASSWORD: string = 'input[name="password"]';
-export const LINK_FORGOT_PASSWORD: string = 'a[href="/forgot-password"]';
-export const LINK_REMEMBER_ME: string = 'input[type="checkbox"][name="rememberMe"]';
-export const BUTTON_LOGIN: string = 'button[type="submit"]';
-export const LINK_CREATE_NEW_ACCOUNT: string = 'a[href="/create-account"]';
-export const BUTTON_SHOW_HIDDEN: string = "button[type='button']";
-export const ALERT_MSG_LOGIN_INCORRECT: string = ".MuiAlert-message";
+export const LOGIN_FORM_ID: string = '[data-testid="LOGIN_FORM"]';
+export const LOGIN_EMAIL_INPUT: string = 'input[name="username"]';
+export const LOGIN_PASSWORD_INPUT: string = 'input[name="password"]';
+export const FORGOT_PASSWORD_LINK: string = 'a[href="/forgot-password"]';
+export const REMEMBER_ME_CHECKBOX: string =
+  'input[type="checkbox"][name="rememberMe"]';
+export const LOGIN_BUTTON: string = 'button[type="submit"]';
+export const CREATE_NEW_ACCOUNT_LINK: string = 'a[href="/create-account"]';
+export const SHOW_HIDDEN_BUTTON: string = "button[type='button']";
+export const MSG_LOGIN_INCORRECT_ALERT: string = ".MuiAlert-message";
+
+export const OPEN_MENU_ICON_ID: string = '[data-testid="OPEN_MENU_ICON"]';
+export const LOG_OUT_OPTION_ID: string = '[data-testid="LOG_OUT_OPTION"]';
+
+export const loginWebPatient = (email: string, senha: string) => {
+  cy.visit("https://qa.faethdigitalhealth.com/");
+  cy.get(LOGIN_EMAIL_INPUT).type(email);
+  cy.get(LOGIN_PASSWORD_INPUT).type(senha);
+  cy.get(REMEMBER_ME_CHECKBOX).check();
+  cy.get(LOGIN_BUTTON).click();
+};
+
+export const logoutWebPatient = () => {
+  cy.get(OPEN_MENU_ICON_ID).should("be.visible").click();
+  cy.get(LOG_OUT_OPTION_ID).should("be.visible").click();
+  cy.get(LOGIN_FORM_ID).should("be.visible");
+  cy.url().should("include", "https://qa.faethdigitalhealth.com/");
+};
