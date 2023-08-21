@@ -10,8 +10,14 @@ export const PERCENT50: string = "50%";
 export const PERCENT100: string = "100%";
 export const PLEASE_INSERT_VALUE_BETWEEN_60_700_LBS: string =
   "Please insert a value between 65 - 700 lbs";
-export const PREVIOUS: string = "Previous";
+
 export const SUBMIT_SURVEY: string = "Submit Survey";
 export const SURVEY_COMPLETED: string = "Survey completed. Great job!";
 export const LBS_000_0: string = "000.0";
-export const NEXT: string = "Next";
+
+export const BIWEEKLY: string = "Biweekly";
+export const DAILY: string = "Daily";
+export const ONCE: string = "Once";
+export const MONTHLY: string = "Monthly";
+export const TRIWEEKLY: string = "Triweekly";
+export const WEEKLY: string = "Weekly";

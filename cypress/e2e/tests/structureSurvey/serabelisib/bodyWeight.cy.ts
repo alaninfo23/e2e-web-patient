@@ -1,12 +1,11 @@
 import moment from "moment";
 import "moment/min/locales";
 
-import * as adminHelpers from "../../helpers/adminHelpers/adminHelpers";
-import * as surveyHelpers from "../../helpers/surveyHelpers";
-import * as logintHelpers from "../../helpers/logintHelpers";
-import * as homeHelpers from "../../helpers/homeHelpers";
-import * as surveyStrings from "../../strings/surveyStrings";
-import * as adminStrings from "../../helpers/adminStrings/adminStrings";
+import * as adminHelpers from "../../../helpers/adminHelper/adminHelper";
+import * as surveyHelpers from "../../../helpers/surveyHelper";
+import * as loginHelpers from "../../../helpers/loginHelper";
+import * as homeHelpers from "../../../helpers/homeHelper";
+import * as surveyStrings from "../../../strings/surveyStrings";
 
 describe("Serabelisib - Body Weight", () => {
   beforeEach(() => {
@@ -20,7 +19,7 @@ describe("Serabelisib - Body Weight", () => {
     );
     adminHelpers.logoutWebAdmin();
 
-    logintHelpers.loginWebPatient(
+    loginHelpers.loginWebPatient(
       Cypress.env("emailWebPatient"),
       Cypress.env("passwordWebPatient"),
     );
@@ -31,7 +30,7 @@ describe("Serabelisib - Body Weight", () => {
   });
 
   afterEach(() => {
-    logintHelpers.logoutWebPatient();
+    loginHelpers.logoutWebPatient();
 
     adminHelpers.loginWebAdmin(
       Cypress.env("emailAdmin"),
@@ -50,7 +49,7 @@ describe("Serabelisib - Body Weight", () => {
 
     surveyHelpers.verifySurveyCard(
       surveyStrings.SERISD001_BODY_WEIGHT,
-      adminStrings.ONCE,
+      surveyStrings.ONCE,
       surveyHelpers.SCHEDULE_ONCE(currentDate, adminHelpers.calculatedTime),
     );
 

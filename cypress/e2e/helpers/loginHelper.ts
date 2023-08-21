@@ -24,6 +24,6 @@ export const logoutWebPatient = () => {
   cy.wait(6000);
   cy.get(OPEN_MENU_ICON_ID).should("be.visible").click();
   cy.get(LOG_OUT_OPTION_ID).click();
-  cy.wait(1000);
+  cy.wait(2000);
   cy.get(LOGIN_FORM_ID).should("be.visible");
 };

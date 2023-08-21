@@ -2,6 +2,7 @@ import "moment/min/locales";
 import { format } from "date-fns";
 
 import * as surveyStrings from "../strings/surveyStrings";
+import * as generalStrings from "../helpers/generalStrings"
 
 export const SERISD001_BODY_WEIGHT_ID: string =
   '[data-testid="SURVEY_CARD_SER-ISD-001 - Body Weight"]';
@@ -26,9 +27,9 @@ export const SCHEDULE_DAILY = (time: string) => `Daily at ${time}`;
 export const SCHEDULE_BIWEEKLY = (day: string, time: string) =>
   `Biweekly on ${day} at ${time}`;
 export const SCHEDULE_TRIWEEKLY = (day: string, time: string) =>
-  `Biweekly on ${day} at ${time}`;
+  `Triweekly on ${day} at ${time}`;
 export const SCHEDULE_WEEKLY = (day: string, time: string) =>
-  `Biweekly on ${day} at ${time}`;
+  `Weekly on ${day} at ${time}`;
 
 export const verifySurveyCard = (
   surveyName: string,
@@ -41,8 +42,8 @@ export const verifySurveyCard = (
 };
 
 export const verifyWeightScreenContent = () => {
-  cy.contains(BUTTON, surveyStrings.CLOSE);
-  cy.contains("h4", surveyStrings.SERISD001_BODY_WEIGHT);
+  cy.contains(BUTTON, surveyStrings.CLOSE).should('be.visible');
+  cy.contains("h4", surveyStrings.SERISD001_BODY_WEIGHT).should('be.visible');
 
   const currentDate = new Date();
   const formattedDateText = format(currentDate, "EEEE, MMMM dd");
@@ -73,20 +74,20 @@ export const verifyWeightIntervalMsgError = (showMsgError: boolean) => {
 };
 
 export const verifyBodyWeightConfirmScreen = (weightInLbs: string) => {
-  cy.get(PRIMARY_BUTTON).contains(surveyStrings.NEXT).click();
+  cy.get(PRIMARY_BUTTON).contains(generalStrings.NEXT).click();
 
-  cy.get(BUTTON).should(surveyStrings.CLOSE);
+  cy.contains(BUTTON, surveyStrings.CLOSE).should('be.visible');
   cy.contains("h4", surveyStrings.SERISD001_BODY_WEIGHT);
   cy.contains(surveyStrings.WHAT_IS_YOUR_WEIGHT_TODAY);
   cy.contains(`${weightInLbs} ${surveyStrings.LBS}`);
-  cy.contains("button", surveyStrings.PREVIOUS).should("be.visible");
+  cy.contains("button", generalStrings.PREVIOUS).should("be.visible");
 
   cy.get(PROGRESS_BAR_100_IMG).should("exist");
   cy.get(VALUE_PROGRESS_BAR_TEXT).should("contain", surveyStrings.PERCENT100);
 };
 
 export const submitSurvey = () => {
-  cy.contains("button", surveyStrings.PREVIOUS).click();
+  cy.contains("button", generalStrings.SUBMIT_SURVEY).click();
   cy.get(SNACK_BAR_ALERT_ID)
     .should("be.visible")
     .contains(surveyStrings.SURVEY_COMPLETED);

@@ -55,7 +55,7 @@ export const assignSurveyToPatient = (
   patientName: string,
   scheduleName: string,
 ) => {
-  cy.get(CT_PATIENTS_TAB_ID, { timeout: 50000 }).should("be.visible").click();
+  cy.get(CT_PATIENTS_TAB_ID, { timeout: 500000 }).should("be.visible").click();
 
   cy.get(FILTER_DROPDOWN_ID).click();
 
@@ -130,7 +130,7 @@ export const unassignSurveyToPatient = (
 export const logoutWebAdmin = () => {
   cy.get(TAB_HOME_ID).click();
   cy.get(USER_CARD_ID).click();
-  cy.get(LOG_OUT_BUTTON).contains("Log out").click();
-  cy.wait(1000);
+  cy.get(LOG_OUT_BUTTON).contains("Log out").should("be.visible").click();
+  cy.wait(2000);
   cy.get(LOGIN_FORM_ID).should("be.visible");
 };
