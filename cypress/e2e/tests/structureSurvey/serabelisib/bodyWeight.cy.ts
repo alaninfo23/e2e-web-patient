@@ -1,88 +1,88 @@
 import moment from "moment";
 import "moment/min/locales";
 
-import * as adminHelpers from "../../../helpers/adminHelper/adminHelper";
-import * as surveyHelpers from "../../../helpers/surveyHelper";
-import * as loginHelpers from "../../../helpers/loginHelper";
-import * as homeHelpers from "../../../helpers/homeHelper";
+import * as adminHelper from "../../../helpers/adminHelper/adminHelper";
+import * as surveyHelper from "../../../helpers/surveyHelper";
+import * as loginHelper from "../../../helpers/loginHelper";
+import * as homeHelper from "../../../helpers/homeHelper";
 import * as surveyStrings from "../../../strings/surveyStrings";
 
 describe("Serabelisib - Body Weight", () => {
   beforeEach(() => {
-    adminHelpers.loginWebAdmin(
+    adminHelper.loginWebAdmin(
       Cypress.env("emailAdmin"),
       Cypress.env("passwordAdmin"),
     );
-    adminHelpers.assignSurveyToPatient(
+    adminHelper.assignSurveyToPatient(
       "Alan Patient 20",
       surveyStrings.SERISD001_BODY_WEIGHT,
     );
-    adminHelpers.logoutWebAdmin();
+    adminHelper.logoutWebAdmin();
 
-    loginHelpers.loginWebPatient(
+    loginHelper.loginWebPatient(
       Cypress.env("emailWebPatient"),
       Cypress.env("passwordWebPatient"),
     );
 
-    cy.get(homeHelpers.SURVEY_CARD_BUTTON("Surveys"), { timeout: 10000 })
+    cy.get(homeHelper.SURVEY_CARD_BUTTON("Surveys"), { timeout: 10000 })
       .should("be.visible")
       .click();
   });
 
   afterEach(() => {
-    loginHelpers.logoutWebPatient();
+    loginHelper.logoutWebPatient();
 
-    adminHelpers.loginWebAdmin(
+    adminHelper.loginWebAdmin(
       Cypress.env("emailAdmin"),
       Cypress.env("passwordAdmin"),
     );
-    adminHelpers.unassignSurveyToPatient(
+    adminHelper.unassignSurveyToPatient(
       "Alan Patient 20",
       surveyStrings.SERISD001_BODY_WEIGHT,
     );
-    adminHelpers.logoutWebAdmin();
+    adminHelper.logoutWebAdmin();
   });
 
   it("Patient should be able to answer SER-ISD-001 - Body Weight survey", () => {
     const weightInLbs = "165.0";
     const currentDate = moment().format("MMM D");
 
-    surveyHelpers.verifySurveyCard(
+    surveyHelper.verifySurveyCard(
       surveyStrings.SERISD001_BODY_WEIGHT,
       surveyStrings.ONCE,
-      surveyHelpers.SCHEDULE_ONCE(currentDate, adminHelpers.calculatedTime),
+      surveyHelper.SCHEDULE_ONCE(currentDate, adminHelper.calculatedTime),
     );
 
-    cy.get(surveyHelpers.SERISD001_BODY_WEIGHT_ID).click();
+    cy.get(surveyHelper.SERISD001_BODY_WEIGHT_ID).click();
 
-    surveyHelpers.verifyWeightScreenContent();
-    cy.get(surveyHelpers.VALUE_LBS_INPUT).clear().type(weightInLbs);
+    surveyHelper.verifyWeightScreenContent();
+    cy.get(surveyHelper.VALUE_LBS_INPUT).clear().type(weightInLbs);
 
-    surveyHelpers.verifyBodyWeightConfirmScreen(weightInLbs);
-    surveyHelpers.submitSurvey();
+    surveyHelper.verifyBodyWeightConfirmScreen(weightInLbs);
+    surveyHelper.submitSurvey();
   });
 
   it('Label error should be displayed when user clicks on "Next" without entering a valid value weight', () => {
-    cy.get(surveyHelpers.SERISD001_BODY_WEIGHT_ID).click();
+    cy.get(surveyHelper.SERISD001_BODY_WEIGHT_ID).click();
 
     const lowValue = "64.0";
     const mediumValue = "165.0";
     const highValue = "701.0";
 
-    cy.get(surveyHelpers.VALUE_LBS_INPUT).clear().type(lowValue);
-    cy.get(surveyHelpers.PRIMARY_BUTTON).contains("Next").click();
-    surveyHelpers.verifyWeightIntervalMsgError(true);
+    cy.get(surveyHelper.VALUE_LBS_INPUT).clear().type(lowValue);
+    cy.get(surveyHelper.PRIMARY_BUTTON).contains("Next").click();
+    surveyHelper.verifyWeightIntervalMsgError(true);
 
-    cy.get(surveyHelpers.VALUE_LBS_INPUT).clear().type(highValue);
-    cy.get(surveyHelpers.PRIMARY_BUTTON).contains("Next").click();
-    surveyHelpers.verifyWeightIntervalMsgError(true);
+    cy.get(surveyHelper.VALUE_LBS_INPUT).clear().type(highValue);
+    cy.get(surveyHelper.PRIMARY_BUTTON).contains("Next").click();
+    surveyHelper.verifyWeightIntervalMsgError(true);
 
-    cy.get(surveyHelpers.VALUE_LBS_INPUT).clear();
-    cy.get(surveyHelpers.PRIMARY_BUTTON).contains("Next").click();
-    surveyHelpers.verifyWeightIntervalMsgError(true);
+    cy.get(surveyHelper.VALUE_LBS_INPUT).clear();
+    cy.get(surveyHelper.PRIMARY_BUTTON).contains("Next").click();
+    surveyHelper.verifyWeightIntervalMsgError(true);
 
-    cy.get(surveyHelpers.VALUE_LBS_INPUT).clear().type(mediumValue);
-    cy.get(surveyHelpers.PRIMARY_BUTTON).contains("Next").click();
-    surveyHelpers.verifyWeightIntervalMsgError(false);
+    cy.get(surveyHelper.VALUE_LBS_INPUT).clear().type(mediumValue);
+    cy.get(surveyHelper.PRIMARY_BUTTON).contains("Next").click();
+    surveyHelper.verifyWeightIntervalMsgError(false);
   });
 });

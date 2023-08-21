@@ -1,9 +1,8 @@
-import * as surveyHelper from "../helpers/surveyHelper";
 export const LOGIN_FORM_ID: string = '[data-testid="LOGIN_FORM"]';
 export const LOGIN_EMAIL_INPUT: string = 'input[name="username"]';
 export const LOGIN_PASSWORD_INPUT: string = 'input[name="password"]';
 export const FORGOT_PASSWORD_LINK: string = 'a[href="/forgot-password"]';
-export const REMEMBER_ME_LINK: string =
+export const REMEMBER_ME_CHECKBOX: string =
   'input[type="checkbox"][name="rememberMe"]';
 export const LOGIN_BUTTON: string = 'button[type="submit"]';
 export const CREATE_NEW_ACCOUNT_LINK: string = 'a[href="/create-account"]';
@@ -17,7 +16,7 @@ export const loginWebPatient = (email: string, senha: string) => {
   cy.visit("https://qa.faethdigitalhealth.com/");
   cy.get(LOGIN_EMAIL_INPUT).type(email);
   cy.get(LOGIN_PASSWORD_INPUT).type(senha);
-  cy.get(REMEMBER_ME_LINK).check();
+  cy.get(REMEMBER_ME_CHECKBOX).check();
   cy.get(LOGIN_BUTTON).click();
 };
 

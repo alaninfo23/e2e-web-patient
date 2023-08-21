@@ -91,5 +91,5 @@ export const submitSurvey = () => {
   cy.get(SNACK_BAR_ALERT_ID)
     .should("be.visible")
     .contains(surveyStrings.SURVEY_COMPLETED);
-  cy.wait(10000);
+  cy.wait(7000);
 };
