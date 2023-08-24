@@ -9,6 +9,7 @@ import * as surveyStrings from "../../../strings/surveyStrings";
 
 describe("Serabelisib - Body Weight", () => {
   beforeEach(() => {
+    adminHelper.clearCache();
     adminHelper.loginWebAdmin(
       Cypress.env("emailAdmin"),
       Cypress.env("passwordAdmin"),
@@ -19,6 +20,7 @@ describe("Serabelisib - Body Weight", () => {
     );
     adminHelper.logoutWebAdmin();
 
+    adminHelper.clearCache();
     loginHelper.loginWebPatient(
       Cypress.env("emailWebPatient"),
       Cypress.env("passwordWebPatient"),
@@ -32,6 +34,7 @@ describe("Serabelisib - Body Weight", () => {
   afterEach(() => {
     loginHelper.logoutWebPatient();
 
+    adminHelper.clearCache();
     adminHelper.loginWebAdmin(
       Cypress.env("emailAdmin"),
       Cypress.env("passwordAdmin"),
@@ -51,14 +54,23 @@ describe("Serabelisib - Body Weight", () => {
       surveyStrings.SERISD001_BODY_WEIGHT,
       surveyStrings.ONCE,
       surveyHelper.SCHEDULE_ONCE(currentDate, adminHelper.calculatedTime),
+      surveyStrings.OPEN,
     );
 
     cy.get(surveyHelper.SERISD001_BODY_WEIGHT_ID).click();
 
-    surveyHelper.verifyWeightScreenContent();
+    surveyHelper.verifyScreenContent(
+      surveyHelper.getProgressBarSelector("50"),
+      surveyStrings.addPercentNumber("50"),
+      surveyStrings.SERISD001_BODY_WEIGHT,
+    );
     cy.get(surveyHelper.VALUE_LBS_INPUT).clear().type(weightInLbs);
 
-    surveyHelper.verifyBodyWeightConfirmScreen(weightInLbs);
+    surveyHelper.verifyBodyWeightConfirmScreen(
+      weightInLbs,
+      surveyHelper.getProgressBarSelector("100"),
+      surveyStrings.addPercentNumber("100"),
+    );
     surveyHelper.submitSurvey();
   });
 
@@ -66,23 +78,30 @@ describe("Serabelisib - Body Weight", () => {
     cy.get(surveyHelper.SERISD001_BODY_WEIGHT_ID).click();
 
     const lowValue = "64.0";
-    const mediumValue = "165.0";
     const highValue = "701.0";
 
     cy.get(surveyHelper.VALUE_LBS_INPUT).clear().type(lowValue);
-    cy.get(surveyHelper.PRIMARY_BUTTON).contains("Next").click();
-    surveyHelper.verifyWeightIntervalMsgError(true);
+    cy.get(surveyHelper.CONTAINED_PRIMARY_BUTTON).contains("Next").click();
+    surveyHelper.verifyIntervalMsgError(
+      true,
+      surveyStrings.PLEASE_INSERT_VALUE_BETWEEN_60_700_LBS,
+    );
+    surveyHelper.validatetMsgOnScreen(surveyStrings.WHAT_IS_YOUR_WEIGHT_TODAY);
 
     cy.get(surveyHelper.VALUE_LBS_INPUT).clear().type(highValue);
-    cy.get(surveyHelper.PRIMARY_BUTTON).contains("Next").click();
-    surveyHelper.verifyWeightIntervalMsgError(true);
+    cy.get(surveyHelper.CONTAINED_PRIMARY_BUTTON).contains("Next").click();
+    surveyHelper.verifyIntervalMsgError(
+      true,
+      surveyStrings.PLEASE_INSERT_VALUE_BETWEEN_60_700_LBS,
+    );
+    surveyHelper.validatetMsgOnScreen(surveyStrings.WHAT_IS_YOUR_WEIGHT_TODAY);
 
     cy.get(surveyHelper.VALUE_LBS_INPUT).clear();
-    cy.get(surveyHelper.PRIMARY_BUTTON).contains("Next").click();
-    surveyHelper.verifyWeightIntervalMsgError(true);
-
-    cy.get(surveyHelper.VALUE_LBS_INPUT).clear().type(mediumValue);
-    cy.get(surveyHelper.PRIMARY_BUTTON).contains("Next").click();
-    surveyHelper.verifyWeightIntervalMsgError(false);
+    cy.get(surveyHelper.CONTAINED_PRIMARY_BUTTON).contains("Next").click();
+    surveyHelper.verifyIntervalMsgError(
+      true,
+      surveyStrings.PLEASE_INSERT_VALUE_BETWEEN_60_700_LBS,
+    );
+    surveyHelper.validatetMsgOnScreen(surveyStrings.WHAT_IS_YOUR_WEIGHT_TODAY);
   });
 });

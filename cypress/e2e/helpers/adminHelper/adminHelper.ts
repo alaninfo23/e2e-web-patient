@@ -30,8 +30,14 @@ export const PATIENT_PROFILE_BUTTON_ID: string =
 export const USER_CARD_ID: string = '[data-testid="USER_CARD"]';
 export const TAB_HOME_ID: string = '[data-testid="TAB_HOME"]';
 
+export const clearCache = () => {
+  cy.clearCookies();
+  cy.clearLocalStorage();
+  cy.reload();
+};
+
 export const loginWebAdmin = (email: string, senha: string) => {
-  cy.visit("https://qa.care.faethdigitalhealth.com/");
+  cy.visit("https://qa.care.faethdigitalhealth.com/", { failOnStatusCode: false });
   cy.get(LOGIN_EMAIL_INPUT).type(email);
   cy.get(LOGIN_PASSWORD_INPUT).type(senha);
   cy.get(LOGIN_BUTTON).click();

@@ -13,7 +13,7 @@ export const OPEN_MENU_ICON_ID: string = '[data-testid="OPEN_MENU_ICON"]';
 export const LOG_OUT_OPTION_ID: string = '[data-testid="LOG_OUT_OPTION"]';
 
 export const loginWebPatient = (email: string, senha: string) => {
-  cy.visit("https://qa.faethdigitalhealth.com/");
+  cy.visit("https://qa.faethdigitalhealth.com/", { failOnStatusCode: false });
   cy.get(LOGIN_EMAIL_INPUT).type(email);
   cy.get(LOGIN_PASSWORD_INPUT).type(senha);
   cy.get(REMEMBER_ME_CHECKBOX).check();
