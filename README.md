@@ -24,6 +24,11 @@ To run the tests locally, follow these steps:
 ```
 npm install -g typescript
 ```
+Important: This project also requires the moment and date-fns libraries. Make sure to install them using the following commands:
+
+```
+npm install moment date-fns
+```
 
 4. Run the command `npx cypress open` to open Cypress and execute the tests.
 
