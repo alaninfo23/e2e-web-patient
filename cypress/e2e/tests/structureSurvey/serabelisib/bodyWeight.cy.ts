@@ -1,107 +1,113 @@
 import moment from "moment";
 import "moment/min/locales";
 
-import * as adminHelper from "../../../helpers/adminHelper/adminHelper";
-import * as surveyHelper from "../../../helpers/surveyHelper";
-import * as loginHelper from "../../../helpers/loginHelper";
-import * as homeHelper from "../../../helpers/homeHelper";
-import * as surveyStrings from "../../../strings/surveyStrings";
+import {
+  clearCache,
+  loginWebAdmin,
+  logoutWebAdmin,
+  assignSurveyToPatient,
+  unassignSurveyToPatient,
+  calculatedTime,
+} from "../../../helpers/adminHelper/adminHelper";
+
+import {
+  verifySurveyCard,
+  verifyWeightScreenContent,
+  verifyBodyWeightConfirmScreen,
+  SCHEDULE_ONCE,
+  SERISD001_BODY_WEIGHT_ID,
+  VALUE_LBS_INPUT,
+  PROGRESS_BAR_VALUE_ID,
+  submitSurvey,
+  CONTAINED_PRIMARY_BUTTON,
+  verifyIntervalMsgError,
+  validateTitleOnScreen,
+} from "../../../helpers/surveyHelper";
+
+import {
+  loginWebPatient,
+  logoutWebPatient,
+} from "../../../helpers/loginHelper";
+
+import {
+  SERISD001_BODY_WEIGHT,
+  ONCE,
+  PERCENT_NUMBER,
+  PLEASE_INSERT_VALUE_BETWEEN_60_700_LBS,
+  WHAT_IS_YOUR_WEIGHT_TODAY,
+} from "../../../strings/surveyStrings";
+
+import { SURVEY_CARD_BUTTON } from "../../../helpers/homeHelper";
 
 describe("Serabelisib - Body Weight", () => {
   beforeEach(() => {
-    adminHelper.clearCache();
-    adminHelper.loginWebAdmin(
-      Cypress.env("emailAdmin"),
-      Cypress.env("passwordAdmin"),
-    );
-    adminHelper.assignSurveyToPatient(
-      "Alan Patient 20",
-      surveyStrings.SERISD001_BODY_WEIGHT,
-    );
-    adminHelper.logoutWebAdmin();
+    clearCache();
+    loginWebAdmin(Cypress.env("emailAdmin"), Cypress.env("passwordAdmin"));
+    assignSurveyToPatient("Alan Patient 20", SERISD001_BODY_WEIGHT);
+    logoutWebAdmin();
 
-    adminHelper.clearCache();
-    loginHelper.loginWebPatient(
+    clearCache();
+    loginWebPatient(
       Cypress.env("emailWebPatient"),
       Cypress.env("passwordWebPatient"),
     );
 
-    cy.get(homeHelper.SURVEY_CARD_BUTTON("Surveys"), { timeout: 10000 })
+    cy.get(SURVEY_CARD_BUTTON("Surveys"), { timeout: 10000 })
       .should("be.visible")
       .click();
   });
 
   afterEach(() => {
-    loginHelper.logoutWebPatient();
+    logoutWebPatient();
 
-    adminHelper.clearCache();
-    adminHelper.loginWebAdmin(
-      Cypress.env("emailAdmin"),
-      Cypress.env("passwordAdmin"),
-    );
-    adminHelper.unassignSurveyToPatient(
-      "Alan Patient 20",
-      surveyStrings.SERISD001_BODY_WEIGHT,
-    );
-    adminHelper.logoutWebAdmin();
+    clearCache();
+    loginWebAdmin(Cypress.env("emailAdmin"), Cypress.env("passwordAdmin"));
+    unassignSurveyToPatient("Alan Patient 20", SERISD001_BODY_WEIGHT);
+    logoutWebAdmin();
   });
 
-  it("Patient should be able to answer SER-ISD-001 - Body Weight survey", () => {
-    const weightInLbs = "165.0";
-    const currentDate = moment().format("MMM D");
-
-    surveyHelper.verifySurveyCard(
-      surveyStrings.SERISD001_BODY_WEIGHT,
-      surveyStrings.ONCE,
-      surveyHelper.SCHEDULE_ONCE(currentDate, adminHelper.calculatedTime),
-      surveyStrings.OPEN,
-    );
-
-    cy.get(surveyHelper.SERISD001_BODY_WEIGHT_ID).click();
-
-    surveyHelper.verifyScreenContent(
-      surveyHelper.getProgressBarSelector("50"),
-      surveyStrings.addPercentNumber("50"),
-      surveyStrings.SERISD001_BODY_WEIGHT,
-    );
-    cy.get(surveyHelper.VALUE_LBS_INPUT).clear().type(weightInLbs);
-
-    surveyHelper.verifyBodyWeightConfirmScreen(
-      weightInLbs,
-      surveyHelper.getProgressBarSelector("100"),
-      surveyStrings.addPercentNumber("100"),
-    );
-    surveyHelper.submitSurvey();
-  });
-
-  it('Label error should be displayed when user clicks on "Next" without entering a valid value weight', () => {
-    cy.get(surveyHelper.SERISD001_BODY_WEIGHT_ID).click();
+  it('Label error should be displayed when user clicks on "Next" without entering a valid value weight, #FDHA-6361', () => {
+    cy.get(SERISD001_BODY_WEIGHT_ID).click();
 
     const lowValue = "64.0";
     const highValue = "701.0";
 
-    cy.get(surveyHelper.VALUE_LBS_INPUT).clear().type(lowValue);
-    cy.get(surveyHelper.CONTAINED_PRIMARY_BUTTON).contains("Next").click();
-    surveyHelper.verifyIntervalMsgError(
-      true,
-      surveyStrings.PLEASE_INSERT_VALUE_BETWEEN_60_700_LBS,
-    );
-    surveyHelper.validatetMsgOnScreen(surveyStrings.WHAT_IS_YOUR_WEIGHT_TODAY);
+    cy.get(VALUE_LBS_INPUT).clear().type(lowValue);
+    cy.get(CONTAINED_PRIMARY_BUTTON).contains("Next").click();
+    verifyIntervalMsgError(true, PLEASE_INSERT_VALUE_BETWEEN_60_700_LBS);
+    validateTitleOnScreen(WHAT_IS_YOUR_WEIGHT_TODAY);
 
-    cy.get(surveyHelper.VALUE_LBS_INPUT).clear().type(highValue);
-    cy.get(surveyHelper.CONTAINED_PRIMARY_BUTTON).contains("Next").click();
-    surveyHelper.verifyIntervalMsgError(
-      true,
-      surveyStrings.PLEASE_INSERT_VALUE_BETWEEN_60_700_LBS,
-    );
-    surveyHelper.validatetMsgOnScreen(surveyStrings.WHAT_IS_YOUR_WEIGHT_TODAY);
+    cy.get(VALUE_LBS_INPUT).clear().type(highValue);
+    cy.get(CONTAINED_PRIMARY_BUTTON).contains("Next").click();
+    verifyIntervalMsgError(true, PLEASE_INSERT_VALUE_BETWEEN_60_700_LBS);
+    validateTitleOnScreen(WHAT_IS_YOUR_WEIGHT_TODAY);
 
-    cy.get(surveyHelper.VALUE_LBS_INPUT).clear();
-    cy.get(surveyHelper.CONTAINED_PRIMARY_BUTTON).contains("Next").click();
-    surveyHelper.verifyIntervalMsgError(
-      true,
-      surveyStrings.PLEASE_INSERT_VALUE_BETWEEN_60_700_LBS,
+    cy.get(VALUE_LBS_INPUT).clear();
+    cy.get(CONTAINED_PRIMARY_BUTTON).contains("Next").click();
+    verifyIntervalMsgError(true, PLEASE_INSERT_VALUE_BETWEEN_60_700_LBS);
+    validateTitleOnScreen(WHAT_IS_YOUR_WEIGHT_TODAY);
+  });
+
+  it("Patient should be able to answer SER-ISD-001 - Body Weight survey, #FDHA-3992, #FDHA-6358, #FDHA-6359, #FDHA-6360", () => {
+    const weightInLbs = "165.0";
+    const currentDate = moment().format("MMM D");
+
+    verifySurveyCard(
+      SERISD001_BODY_WEIGHT,
+      ONCE,
+      SCHEDULE_ONCE(currentDate, calculatedTime),
     );
-    surveyHelper.validatetMsgOnScreen(surveyStrings.WHAT_IS_YOUR_WEIGHT_TODAY);
+
+    cy.get(SERISD001_BODY_WEIGHT_ID).click();
+
+    verifyWeightScreenContent("50", "50", SERISD001_BODY_WEIGHT);
+    cy.get(VALUE_LBS_INPUT).clear().type(weightInLbs);
+
+    verifyBodyWeightConfirmScreen(
+      weightInLbs,
+      PROGRESS_BAR_VALUE_ID("100"),
+      PERCENT_NUMBER("100"),
+    );
+    submitSurvey();
   });
 });

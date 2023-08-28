@@ -37,7 +37,9 @@ export const clearCache = () => {
 };
 
 export const loginWebAdmin = (email: string, senha: string) => {
-  cy.visit("https://qa.care.faethdigitalhealth.com/", { failOnStatusCode: false });
+  cy.visit("https://qa.care.faethdigitalhealth.com/", {
+    failOnStatusCode: false,
+  });
   cy.get(LOGIN_EMAIL_INPUT).type(email);
   cy.get(LOGIN_PASSWORD_INPUT).type(senha);
   cy.get(LOGIN_BUTTON).click();
