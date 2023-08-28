@@ -20,7 +20,7 @@ import {
   PROGRESS_BAR_VALUE_ID,
   submitSurvey,
   CONTAINED_PRIMARY_BUTTON,
-  verifyIntervalMsgError,
+  verifyInputMessageError,
   validateTitleOnScreen,
 } from "../../../helpers/surveyHelper";
 
@@ -74,17 +74,17 @@ describe("Serabelisib - Body Weight", () => {
 
     cy.get(VALUE_LBS_INPUT).clear().type(lowValue);
     cy.get(CONTAINED_PRIMARY_BUTTON).contains("Next").click();
-    verifyIntervalMsgError(true, PLEASE_INSERT_VALUE_BETWEEN_60_700_LBS);
+    verifyInputMessageError(true, PLEASE_INSERT_VALUE_BETWEEN_60_700_LBS);
     validateTitleOnScreen(WHAT_IS_YOUR_WEIGHT_TODAY);
 
     cy.get(VALUE_LBS_INPUT).clear().type(highValue);
     cy.get(CONTAINED_PRIMARY_BUTTON).contains("Next").click();
-    verifyIntervalMsgError(true, PLEASE_INSERT_VALUE_BETWEEN_60_700_LBS);
+    verifyInputMessageError(true, PLEASE_INSERT_VALUE_BETWEEN_60_700_LBS);
     validateTitleOnScreen(WHAT_IS_YOUR_WEIGHT_TODAY);
 
     cy.get(VALUE_LBS_INPUT).clear();
     cy.get(CONTAINED_PRIMARY_BUTTON).contains("Next").click();
-    verifyIntervalMsgError(true, PLEASE_INSERT_VALUE_BETWEEN_60_700_LBS);
+    verifyInputMessageError(true, PLEASE_INSERT_VALUE_BETWEEN_60_700_LBS);
     validateTitleOnScreen(WHAT_IS_YOUR_WEIGHT_TODAY);
   });
 
@@ -100,7 +100,7 @@ describe("Serabelisib - Body Weight", () => {
 
     cy.get(SERISD001_BODY_WEIGHT_ID).click();
 
-    verifyWeightScreenContent("50", "50", SERISD001_BODY_WEIGHT);
+    verifyWeightScreenContent("50", "50");
     cy.get(VALUE_LBS_INPUT).clear().type(weightInLbs);
 
     verifyBodyWeightConfirmScreen(

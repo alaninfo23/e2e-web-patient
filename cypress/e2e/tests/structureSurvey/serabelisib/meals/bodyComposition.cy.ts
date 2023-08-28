@@ -18,7 +18,7 @@ import {
   PROGRESS_BAR_VALUE_ID,
   submitSurvey,
   CONTAINED_PRIMARY_BUTTON,
-  verifyIntervalMsgError,
+  verifyInputMessageError,
   validateTitleOnScreen,
   NEEAR001_BODY_COMPOSITION_ID,
   verifyBodyCompositionContentInPercent,
@@ -81,17 +81,17 @@ describe("Serabelisib - Body Composition", () => {
 
     cy.get(VALUE_LBS_INPUT).clear().type(bodyFatLowValue);
     cy.get(CONTAINED_PRIMARY_BUTTON).contains(NEXT).click();
-    verifyIntervalMsgError(true, PLEASE_INSERT_VALUE_BETWEEN_2_60_PERCENT);
+    verifyInputMessageError(true, PLEASE_INSERT_VALUE_BETWEEN_2_60_PERCENT);
     validateTitleOnScreen(WHAT_IS_YOUR_BODY_FAT_PERCENTAGE_TODAY);
 
     cy.get(VALUE_LBS_INPUT).clear().type(bodyFatHighValue);
-    verifyIntervalMsgError(true, PLEASE_INSERT_VALUE_BETWEEN_2_60_PERCENT);
+    verifyInputMessageError(true, PLEASE_INSERT_VALUE_BETWEEN_2_60_PERCENT);
     cy.get(CONTAINED_PRIMARY_BUTTON).contains(NEXT).click();
     validateTitleOnScreen(WHAT_IS_YOUR_BODY_FAT_PERCENTAGE_TODAY);
 
     cy.get(VALUE_LBS_INPUT).clear();
     cy.get(CONTAINED_PRIMARY_BUTTON).contains(NEXT).click();
-    verifyIntervalMsgError(true, PLEASE_INSERT_VALUE_BETWEEN_2_60_PERCENT);
+    verifyInputMessageError(true, PLEASE_INSERT_VALUE_BETWEEN_2_60_PERCENT);
     validateTitleOnScreen(WHAT_IS_YOUR_BODY_FAT_PERCENTAGE_TODAY);
   });
 
@@ -103,17 +103,17 @@ describe("Serabelisib - Body Composition", () => {
 
     cy.get(VALUE_LBS_INPUT).clear().type(lowValue);
     cy.get(CONTAINED_PRIMARY_BUTTON).contains(NEXT).click();
-    verifyIntervalMsgError(true, PLEASE_INSERT_VALUE_BETWEEN_60_700_LBS);
+    verifyInputMessageError(true, PLEASE_INSERT_VALUE_BETWEEN_60_700_LBS);
     validateTitleOnScreen(WHAT_IS_YOUR_WEIGHT_TODAY);
 
     cy.get(VALUE_LBS_INPUT).clear().type(highValue);
     cy.get(CONTAINED_PRIMARY_BUTTON).contains(NEXT).click();
-    verifyIntervalMsgError(true, PLEASE_INSERT_VALUE_BETWEEN_60_700_LBS);
+    verifyInputMessageError(true, PLEASE_INSERT_VALUE_BETWEEN_60_700_LBS);
     validateTitleOnScreen(WHAT_IS_YOUR_WEIGHT_TODAY);
 
     cy.get(VALUE_LBS_INPUT).clear();
     cy.get(CONTAINED_PRIMARY_BUTTON).contains(NEXT).click();
-    verifyIntervalMsgError(true, PLEASE_INSERT_VALUE_BETWEEN_60_700_LBS);
+    verifyInputMessageError(true, PLEASE_INSERT_VALUE_BETWEEN_60_700_LBS);
     validateTitleOnScreen(WHAT_IS_YOUR_WEIGHT_TODAY);
   });
 
@@ -130,7 +130,7 @@ describe("Serabelisib - Body Composition", () => {
 
     cy.get(NEEAR001_BODY_COMPOSITION_ID).click();
 
-    verifyWeightScreenContent("33", "33", NEEAR001_BODY_COMPOSITION);
+    verifyWeightScreenContent("33", "33");
 
     cy.get(VALUE_LBS_INPUT).clear().type(weightInLbs);
     cy.get(CONTAINED_PRIMARY_BUTTON).contains(NEXT).click();

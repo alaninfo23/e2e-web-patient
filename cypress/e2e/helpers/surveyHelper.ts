@@ -64,10 +64,9 @@ export const verifySurveyCard = (
 export const verifyWeightScreenContent = (
   progressBarImageSelector: string,
   percentValue: string,
-  surveyTitle: string,
 ) => {
   cy.contains(BUTTON, CLOSE).should("be.visible");
-  cy.contains("h4", surveyTitle).should("be.visible");
+  cy.contains("h4", SERISD001_BODY_WEIGHT).should("be.visible");
 
   const currentDate = new Date();
   const formattedDateText = format(currentDate, "EEEE, MMMM dd");
@@ -87,7 +86,7 @@ export const verifyWeightScreenContent = (
   );
 };
 
-export const verifyIntervalMsgError = (
+export const verifyInputMessageError = (
   showMsgError: boolean,
   msgError: string,
 ) => {
