@@ -66,7 +66,7 @@ describe("Serabelisib - Body Weight", () => {
     logoutWebAdmin();
   });
 
-  it('Label error should be displayed when user clicks on "Next" without entering a valid value weight, #FDHA-6361', () => {
+  it('Label error should be displayed when user clicks on "Next" without entering a valid value weight, #6361', () => {
     cy.get(SERISD001_BODY_WEIGHT_ID).click();
 
     const lowValue = "64.0";
@@ -88,7 +88,7 @@ describe("Serabelisib - Body Weight", () => {
     validateTitleOnScreen(WHAT_IS_YOUR_WEIGHT_TODAY);
   });
 
-  it("Patient should be able to answer SER-ISD-001 - Body Weight survey, #FDHA-3992, #FDHA-6358, #FDHA-6359, #FDHA-6360", () => {
+  it("Patient should be able to answer SER-ISD-001 - Body Weight survey, #3992, #6358, #6359, #6360", () => {
     const weightInLbs = "165.0";
     const currentDate = moment().format("MMM D");
 
@@ -100,7 +100,7 @@ describe("Serabelisib - Body Weight", () => {
 
     cy.get(SERISD001_BODY_WEIGHT_ID).click();
 
-    verifyWeightScreenContent("50", "50");
+    verifyWeightScreenContent("50", "50", SERISD001_BODY_WEIGHT);
     cy.get(VALUE_LBS_INPUT).clear().type(weightInLbs);
 
     verifyBodyWeightConfirmScreen(

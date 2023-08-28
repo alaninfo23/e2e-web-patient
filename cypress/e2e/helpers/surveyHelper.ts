@@ -29,9 +29,8 @@ export const DATE_TEXT: string = "p.MuiTypography-body1.css-xhbppr";
 export const BUTTON: string = "button";
 export const VALUE_LBS_INPUT: string = "input.MuiInputBase-input";
 export const VALUE_TYPE: string = "p.MuiTypography-root.css-10o8u6h";
-export const PROGRESS_BAR_VALUE_ID = (progressValue: string): string => {
-  return `span[role="progressbar"][aria-valuenow="${progressValue}"]`;
-};
+export const PROGRESS_BAR_VALUE_ID = (progressValue: string): string =>
+  `span[role="progressbar"][aria-valuenow="${progressValue}"]`;
 
 export const VALUE_PROGRESS_BAR_TEXT: string = "p.MuiTypography-root";
 export const CONTAINED_PRIMARY_BUTTON: string =
@@ -62,11 +61,12 @@ export const verifySurveyCard = (
 };
 
 export const verifyWeightScreenContent = (
-  progressBarImageSelector: string,
+  progressBarValue: string,
   percentValue: string,
+  surveyName: string,
 ) => {
   cy.contains(BUTTON, CLOSE).should("be.visible");
-  cy.contains("h4", SERISD001_BODY_WEIGHT).should("be.visible");
+  cy.contains("h4", surveyName).should("be.visible");
 
   const currentDate = new Date();
   const formattedDateText = format(currentDate, "EEEE, MMMM dd");
@@ -79,7 +79,7 @@ export const verifyWeightScreenContent = (
   cy.get(VALUE_TYPE).should("contain", LBS);
   cy.contains(PLEASE_INSERT_VALUE_BETWEEN_60_700_LBS);
 
-  cy.get(PROGRESS_BAR_VALUE_ID(progressBarImageSelector)).should("exist");
+  cy.get(PROGRESS_BAR_VALUE_ID(progressBarValue)).should("exist");
   cy.get(VALUE_PROGRESS_BAR_TEXT).should(
     "contain",
     PERCENT_NUMBER(percentValue),
@@ -117,6 +117,7 @@ export const verifyBodyWeightConfirmScreen = (
   cy.contains(WHAT_IS_YOUR_WEIGHT_TODAY);
   cy.contains(`${weightInLbs} ${LBS}`);
   cy.contains("button", PREVIOUS).should("be.visible");
+  cy.contains("button", SUBMIT_SURVEY).should("be.visible");
 
   cy.get(progressBarImageSelector).should("exist");
   cy.get(VALUE_PROGRESS_BAR_TEXT).should("contain", percentValue);
@@ -125,7 +126,7 @@ export const verifyBodyWeightConfirmScreen = (
 export const validateTitleOnScreen = (surveyTitle: string) => {
   cy.contains("h5", surveyTitle).should("be.visible");
 };
-export const verifyBodyCompositionContentInPercent = (
+export const verifyBodyCompositionScreenContent = (
   surveyTitle: string,
   progressBarImageSelector: string,
   percentValue: string,

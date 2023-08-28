@@ -10,9 +10,7 @@ export const PLEASE_WRITE_FULL_NUMBER_DECIMAL: string =
 export const REQUIRED: string = "*Required";
 export const LBS: string = "lbs";
 export const PERCENT: string = "%";
-export const PERCENT_NUMBER = (number: string) => {
-  return `${number}%`;
-};
+export const PERCENT_NUMBER = (number: string) => `${number}%`;
 export const PLEASE_INSERT_VALUE_BETWEEN_60_700_LBS: string =
   "Please insert a value between 65 - 700 lbs";
 export const PLEASE_INSERT_VALUE_BETWEEN_2_60_PERCENT: string =

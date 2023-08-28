@@ -21,7 +21,7 @@ import {
   verifyInputMessageError,
   validateTitleOnScreen,
   NEEAR001_BODY_COMPOSITION_ID,
-  verifyBodyCompositionContentInPercent,
+  verifyBodyCompositionScreenContent,
   verifyBodyCompositionConfirmScreen,
 } from "../../../../helpers/surveyHelper";
 
@@ -70,7 +70,7 @@ describe("Serabelisib - Body Composition", () => {
     logoutWebAdmin();
   });
 
-  it("Label error should be displayed when user clicks on 'Next' without entering a valid value on What is your body fat percentage today?, #FDHA-6372", () => {
+  it("Label error should be displayed when user clicks on 'Next' without entering a valid value on What is your body fat percentage today?, #6372", () => {
     const weightInLbs = "165.0";
     const bodyFatLowValue = "1.0";
     const bodyFatHighValue = "61.0";
@@ -95,7 +95,7 @@ describe("Serabelisib - Body Composition", () => {
     validateTitleOnScreen(WHAT_IS_YOUR_BODY_FAT_PERCENTAGE_TODAY);
   });
 
-  it("FDHA-6840 - Label error should be displayed when user clicks on 'Next' without entering a valid value on What is your weight today?, #FDHA-6372", () => {
+  it("FDHA-6840 - Label error should be displayed when user clicks on 'Next' without entering a valid value on What is your weight today?, #6372", () => {
     cy.get(NEEAR001_BODY_COMPOSITION_ID).click();
 
     const lowValue = "64.0";
@@ -117,7 +117,7 @@ describe("Serabelisib - Body Composition", () => {
     validateTitleOnScreen(WHAT_IS_YOUR_WEIGHT_TODAY);
   });
 
-  it.only("Patient should be able to answer NEAAR-001 - Body Composition, #FDHA-3991, , #FDHA-6369, #FDHA-6370, #FDHA-6371,", () => {
+  it("Patient should be able to answer NEAAR-001 - Body Composition, #3991, #6369, #6370, #6371", () => {
     const weightInLbs = "165.0";
     const bodyFat = "30.0";
     const currentDate = moment().format("MMM D");
@@ -130,12 +130,12 @@ describe("Serabelisib - Body Composition", () => {
 
     cy.get(NEEAR001_BODY_COMPOSITION_ID).click();
 
-    verifyWeightScreenContent("33", "33");
+    verifyWeightScreenContent("33", "33", NEEAR001_BODY_COMPOSITION);
 
     cy.get(VALUE_LBS_INPUT).clear().type(weightInLbs);
     cy.get(CONTAINED_PRIMARY_BUTTON).contains(NEXT).click();
 
-    verifyBodyCompositionContentInPercent(
+    verifyBodyCompositionScreenContent(
       NEEAR001_BODY_COMPOSITION,
       PROGRESS_BAR_VALUE_ID("67"),
       PERCENT_NUMBER("67"),
