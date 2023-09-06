@@ -8,8 +8,6 @@ export const WHAT_IS_YOUR_BODY_FAT_PERCENTAGE_TODAY: string =
 export const PLEASE_WRITE_FULL_NUMBER_DECIMAL: string =
   "Please write the full number including the decimal.";
 export const REQUIRED: string = "*Required";
-export const LBS: string = "lbs";
-export const PERCENT: string = "%";
 export const PERCENT_NUMBER = (number: string) => `${number}%`;
 export const PLEASE_INSERT_VALUE_BETWEEN_60_700_LBS: string =
   "Please insert a value between 65 - 700 lbs";
@@ -18,8 +16,6 @@ export const PLEASE_INSERT_VALUE_BETWEEN_2_60_PERCENT: string =
 
 export const SUBMIT_SURVEY: string = "Submit Survey";
 export const SURVEY_COMPLETED: string = "Survey completed. Great job!";
-export const LBS_000_0: string = "000.0";
-export const LBS_00_0: string = "00.0";
 
 export const BIWEEKLY: string = "Biweekly";
 export const DAILY: string = "Daily";
