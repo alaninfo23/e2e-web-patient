@@ -10,7 +10,6 @@ import {
   WHAT_IS_YOUR_BODY_FAT_PERCENTAGE_TODAY,
   PLEASE_INSERT_VALUE_BETWEEN_2_60_PERCENT,
   NEEAR001_BODY_COMPOSITION,
-  PERCENT,
   PERCENT_NUMBER,
   SERISD001_BODY_WEIGHT,
   SURVEY_COMPLETED,
@@ -112,7 +111,7 @@ export const verifyBodyWeightConfirmScreen = (
   cy.contains(BUTTON, CLOSE).should("be.visible");
   cy.contains("h4", SERISD001_BODY_WEIGHT);
   cy.contains(WHAT_IS_YOUR_WEIGHT_TODAY);
-  cy.contains(`${weightInLbs} ${LBS}`);
+  cy.contains(`${weightInLbs} lbs`);
   cy.contains("button", PREVIOUS).should("be.visible");
   cy.contains("button", SUBMIT_SURVEY).should("be.visible");
 
@@ -139,7 +138,7 @@ export const verifyBodyCompositionScreenContent = (
   cy.contains(PLEASE_WRITE_FULL_NUMBER_DECIMAL);
   cy.contains(REQUIRED);
   cy.get(VALUE_LBS_INPUT).should("have.attr", "placeholder", "00.0");
-  cy.get(VALUE_TYPE).should("contain", PERCENT);
+  cy.get(VALUE_TYPE).should("contain", "%");
   cy.contains(PLEASE_INSERT_VALUE_BETWEEN_2_60_PERCENT);
 
   cy.get(progressBarImageSelector).should("exist");
@@ -162,8 +161,8 @@ export const verifyBodyCompositionConfirmScreen = (
   cy.get(DATE_TEXT).should("contain", formattedDateText);
 
   cy.contains(WHAT_IS_YOUR_BODY_FAT_PERCENTAGE_TODAY);
-  cy.contains(`${weightInLbs} ${LBS}`);
-  cy.contains(`${bodyFatInPercent} ${PERCENT}`);
+  cy.contains(`${weightInLbs} lbs`);
+  cy.contains(`${bodyFatInPercent} %`);
   cy.contains("button", PREVIOUS).should("be.visible");
   cy.contains("button", SUBMIT_SURVEY).should("be.visible");
 
