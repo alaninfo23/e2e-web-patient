@@ -95,7 +95,7 @@ describe("Serabelisib - Body Composition", () => {
     validateTitleOnScreen(WHAT_IS_YOUR_BODY_FAT_PERCENTAGE_TODAY);
   });
 
-  it("FDHA-6840 - Label error should be displayed when user clicks on 'Next' without entering a valid value on What is your weight today?, #6372", () => {
+  it("Label error should be displayed when user clicks on 'Next' without entering a valid value on What is your weight today?, #6372", () => {
     cy.get(NEEAR001_BODY_COMPOSITION_ID).click();
 
     const lowValue = "64.0";

@@ -6,9 +6,6 @@ import {
   WHAT_IS_YOUR_WEIGHT_TODAY,
   PLEASE_WRITE_FULL_NUMBER_DECIMAL,
   REQUIRED,
-  LBS_00_0,
-  LBS_000_0,
-  LBS,
   PLEASE_INSERT_VALUE_BETWEEN_60_700_LBS,
   WHAT_IS_YOUR_BODY_FAT_PERCENTAGE_TODAY,
   PLEASE_INSERT_VALUE_BETWEEN_2_60_PERCENT,
@@ -75,8 +72,8 @@ export const verifyWeightScreenContent = (
   cy.contains(WHAT_IS_YOUR_WEIGHT_TODAY);
   cy.contains(PLEASE_WRITE_FULL_NUMBER_DECIMAL);
   cy.contains(REQUIRED);
-  cy.get(VALUE_LBS_INPUT).should("have.attr", "placeholder", LBS_000_0);
-  cy.get(VALUE_TYPE).should("contain", LBS);
+  cy.get(VALUE_LBS_INPUT).should("have.attr", "placeholder", "000.0");
+  cy.get(VALUE_TYPE).should("contain", "00.0");
   cy.contains(PLEASE_INSERT_VALUE_BETWEEN_60_700_LBS);
 
   cy.get(PROGRESS_BAR_VALUE_ID(progressBarValue)).should("exist");
@@ -141,7 +138,7 @@ export const verifyBodyCompositionScreenContent = (
   cy.contains(WHAT_IS_YOUR_BODY_FAT_PERCENTAGE_TODAY);
   cy.contains(PLEASE_WRITE_FULL_NUMBER_DECIMAL);
   cy.contains(REQUIRED);
-  cy.get(VALUE_LBS_INPUT).should("have.attr", "placeholder", LBS_00_0);
+  cy.get(VALUE_LBS_INPUT).should("have.attr", "placeholder", "00.0");
   cy.get(VALUE_TYPE).should("contain", PERCENT);
   cy.contains(PLEASE_INSERT_VALUE_BETWEEN_2_60_PERCENT);
 
