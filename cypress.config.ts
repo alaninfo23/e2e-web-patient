@@ -10,4 +10,5 @@ module.exports = defineConfig({
     },
   },
   video: false,
+  watchForFileChanges: false,
 });

@@ -22,6 +22,7 @@ import {
   CONTAINED_PRIMARY_BUTTON,
   verifyInputMessageError,
   validateTitleOnScreen,
+  currentDate,
 } from "../../../helpers/surveyHelper";
 
 import {
@@ -90,11 +91,9 @@ describe("Serabelisib - Body Weight", () => {
 
   it("Patient should be able to answer SER-ISD-001 - Body Weight survey, #3992, #6358, #6359, #6360", () => {
     const weightInLbs = "165.0";
-    const currentDate = moment().format("MMM D");
 
     verifySurveyCard(
       SERISD001_BODY_WEIGHT,
-      ONCE,
       SCHEDULE_ONCE(currentDate, calculatedTime),
     );
 
@@ -108,6 +107,6 @@ describe("Serabelisib - Body Weight", () => {
       PROGRESS_BAR_VALUE_ID("100"),
       PERCENT_NUMBER("100"),
     );
-    submitSurvey();
+    submitSurvey(7000);
   });
 });

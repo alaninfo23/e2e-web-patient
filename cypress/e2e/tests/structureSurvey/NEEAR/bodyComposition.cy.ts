@@ -8,7 +8,7 @@ import {
   assignSurveyToPatient,
   unassignSurveyToPatient,
   calculatedTime,
-} from "../../../../helpers/adminHelper/adminHelper";
+} from "../../../helpers/adminHelper/adminHelper";
 
 import {
   verifySurveyCard,
@@ -23,25 +23,25 @@ import {
   NEEAR001_BODY_COMPOSITION_ID,
   verifyBodyCompositionScreenContent,
   verifyBodyCompositionConfirmScreen,
-} from "../../../../helpers/surveyHelper";
+  currentDate,
+} from "../../../helpers/surveyHelper";
 
 import {
   loginWebPatient,
   logoutWebPatient,
-} from "../../../../helpers/loginHelper";
+} from "../../../helpers/loginHelper";
 
 import {
   NEEAR001_BODY_COMPOSITION,
-  ONCE,
   PERCENT_NUMBER,
   PLEASE_INSERT_VALUE_BETWEEN_60_700_LBS,
   WHAT_IS_YOUR_WEIGHT_TODAY,
   PLEASE_INSERT_VALUE_BETWEEN_2_60_PERCENT,
   WHAT_IS_YOUR_BODY_FAT_PERCENTAGE_TODAY,
-} from "../../../../strings/surveyStrings";
+} from "../../../strings/surveyStrings";
 
-import { SURVEY_CARD_BUTTON } from "../../../../helpers/homeHelper";
-import { NEXT } from "../../../../helpers/generalStrings";
+import { SURVEY_CARD_BUTTON } from "../../../helpers/homeHelper";
+import { NEXT } from "../../../helpers/generalStrings";
 
 describe("Serabelisib - Body Composition", () => {
   beforeEach(() => {
@@ -120,11 +120,9 @@ describe("Serabelisib - Body Composition", () => {
   it("Patient should be able to answer NEAAR-001 - Body Composition, #3991, #6369, #6370, #6371", () => {
     const weightInLbs = "165.0";
     const bodyFat = "30.0";
-    const currentDate = moment().format("MMM D");
 
     verifySurveyCard(
       NEEAR001_BODY_COMPOSITION,
-      ONCE,
       SCHEDULE_ONCE(currentDate, calculatedTime),
     );
 
@@ -151,6 +149,6 @@ describe("Serabelisib - Body Composition", () => {
       PERCENT_NUMBER("100"),
     );
 
-    submitSurvey();
+    submitSurvey(7000);
   });
 });
