@@ -13,17 +13,15 @@ import {
 import {
   verifySurveyCard,
   ONBOARDING_PRACTICE_SURVEY_ID,
-  verifyOnboardingExperienceOptions,
+  verifyOnboardingExperienceScreen,
   verifyPleaseProvideFeedbackScreen,
   verifyQuestionsNotBeenAnswered,
   checkAlertMessage,
-  currentDate,
   SCHEDULE_ONCE,
   submitSurvey,
   CONTAINED_PRIMARY_BUTTON,
-  ALERT_NOTIFICATION,
   verifyInputMessageError,
-  OPTION_RADIO_EXCELLENT,
+  RADIO_OPTION_EXCELLENT,
   FEEDBACK_TEXT_INPUT,
   QUESTIONS_TEXT_INPUT,
   verifyOnboardPracticeConfirmation,
@@ -37,6 +35,8 @@ import {
 import {
   ONBOARDING_PRACTICE_SURVEY,
   THIS_FIELD_CANNOT_BE_LEFT_BLANK,
+  PLEASE_SELECT_ONE_OPTION,
+  HOW_HAS_YOUR_ONBOARDING_EXPERIENCE_BEEN_SO_FAR,
 } from "../../../strings/surveyStrings";
 
 import { SURVEY_CARD_BUTTON } from "../../../helpers/homeHelper";
@@ -72,21 +72,24 @@ describe("notTrialSpecific - Onboarding Practice Survey", () => {
     cy.get(ONBOARDING_PRACTICE_SURVEY_ID).click();
     cy.get(CONTAINED_PRIMARY_BUTTON).contains(NEXT).click();
     cy.wait(2000);
-    checkAlertMessage("Please select one option");
-    cy.get(OPTION_RADIO_EXCELLENT).click();
+    cy.contains(HOW_HAS_YOUR_ONBOARDING_EXPERIENCE_BEEN_SO_FAR);
+    checkAlertMessage(PLEASE_SELECT_ONE_OPTION);
+    cy.get(RADIO_OPTION_EXCELLENT).click();
+    cy.contains(HOW_HAS_YOUR_ONBOARDING_EXPERIENCE_BEEN_SO_FAR);
   });
 
   it("Experience feedback should be required, #5785", () => {
     cy.get(ONBOARDING_PRACTICE_SURVEY_ID).click();
-    cy.get(OPTION_RADIO_EXCELLENT).click();
+    cy.get(RADIO_OPTION_EXCELLENT).click();
     cy.get(CONTAINED_PRIMARY_BUTTON).contains(NEXT).click();
     cy.get(CONTAINED_PRIMARY_BUTTON).contains(NEXT).click();
     verifyInputMessageError(true, THIS_FIELD_CANNOT_BE_LEFT_BLANK);
   });
 
-  it("Patient should be able to answer Onboarding Practice Survey when patient added question, #6111, #5781, #5782, #5786, #5787, #5788", () => {
+  it("Patient should be able to answer Onboarding Practice Survey when patient added question, #6111, #5781, #5782, #5784, #5786, #5788", () => {
     const feedbackTextInput = "nothing, the system is great";
     const questionsTextInput = "How does faeth work?";
+    const currentDate = moment().format("MMM DD");
     verifySurveyCard(
       ONBOARDING_PRACTICE_SURVEY,
       SCHEDULE_ONCE(currentDate, calculatedTime),
@@ -94,19 +97,19 @@ describe("notTrialSpecific - Onboarding Practice Survey", () => {
 
     cy.get(ONBOARDING_PRACTICE_SURVEY_ID).click();
 
-    verifyOnboardingExperienceOptions("25", "25", ONBOARDING_PRACTICE_SURVEY);
-    cy.get(OPTION_RADIO_EXCELLENT).click();
+    verifyOnboardingExperienceScreen("25", ONBOARDING_PRACTICE_SURVEY);
+    cy.get(RADIO_OPTION_EXCELLENT).click();
     cy.get(CONTAINED_PRIMARY_BUTTON).contains(NEXT).click();
 
-    verifyPleaseProvideFeedbackScreen("50", "50", ONBOARDING_PRACTICE_SURVEY);
+    verifyPleaseProvideFeedbackScreen("50", ONBOARDING_PRACTICE_SURVEY);
     cy.get(FEEDBACK_TEXT_INPUT).type(feedbackTextInput);
     cy.get(CONTAINED_PRIMARY_BUTTON).contains(NEXT).click();
 
-    verifyQuestionsNotBeenAnswered("75", "75", ONBOARDING_PRACTICE_SURVEY);
+    verifyQuestionsNotBeenAnswered("75", ONBOARDING_PRACTICE_SURVEY);
     cy.get(QUESTIONS_TEXT_INPUT).type(questionsTextInput);
     cy.get(CONTAINED_PRIMARY_BUTTON).contains(NEXT).click();
 
-    verifyOnboardPracticeConfirmation("100", "100", ONBOARDING_PRACTICE_SURVEY);
+    verifyOnboardPracticeConfirmation("100", ONBOARDING_PRACTICE_SURVEY);
 
     cy.contains("h6", "Excellent");
     cy.contains("h6", feedbackTextInput);
@@ -114,8 +117,10 @@ describe("notTrialSpecific - Onboarding Practice Survey", () => {
     submitSurvey(7000);
   });
 
-  it("Patient should be able to answer Onboarding Practice Survey when didn't add question, #6110, #5789", () => {
+  it("Patient should be able to answer Onboarding Practice Survey when didn't add question, #6110, #5787, #5789", () => {
     const feedbackTextInput = "nothing, the system is great";
+    const currentDate = moment().format("MMM DD");
+
     verifySurveyCard(
       ONBOARDING_PRACTICE_SURVEY,
       SCHEDULE_ONCE(currentDate, calculatedTime),
@@ -123,18 +128,18 @@ describe("notTrialSpecific - Onboarding Practice Survey", () => {
 
     cy.get(ONBOARDING_PRACTICE_SURVEY_ID).click();
 
-    verifyOnboardingExperienceOptions("25", "25", ONBOARDING_PRACTICE_SURVEY);
-    cy.get(OPTION_RADIO_EXCELLENT).click();
+    verifyOnboardingExperienceScreen("25", ONBOARDING_PRACTICE_SURVEY);
+    cy.get(RADIO_OPTION_EXCELLENT).click();
     cy.get(CONTAINED_PRIMARY_BUTTON).contains(NEXT).click();
 
-    verifyPleaseProvideFeedbackScreen("50", "50", ONBOARDING_PRACTICE_SURVEY);
+    verifyPleaseProvideFeedbackScreen("50", ONBOARDING_PRACTICE_SURVEY);
     cy.get(FEEDBACK_TEXT_INPUT).type(feedbackTextInput);
     cy.get(CONTAINED_PRIMARY_BUTTON).contains(NEXT).click();
 
-    verifyQuestionsNotBeenAnswered("75", "75", ONBOARDING_PRACTICE_SURVEY);
+    verifyQuestionsNotBeenAnswered("75", ONBOARDING_PRACTICE_SURVEY);
     cy.get(CONTAINED_PRIMARY_BUTTON).contains(NEXT).click();
 
-    verifyOnboardPracticeConfirmation("100", "100", ONBOARDING_PRACTICE_SURVEY);
+    verifyOnboardPracticeConfirmation("100", ONBOARDING_PRACTICE_SURVEY);
 
     cy.contains("h6", "Excellent");
     cy.contains("h6", feedbackTextInput);

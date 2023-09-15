@@ -99,14 +99,10 @@ describe("Serabelisib - Body Weight", () => {
 
     cy.get(SERISD001_BODY_WEIGHT_ID).click();
 
-    verifyWeightScreenContent("50", "50", SERISD001_BODY_WEIGHT);
+    verifyWeightScreenContent("50", SERISD001_BODY_WEIGHT);
     cy.get(VALUE_LBS_INPUT).clear().type(weightInLbs);
 
-    verifyBodyWeightConfirmScreen(
-      weightInLbs,
-      PROGRESS_BAR_VALUE_ID("100"),
-      PERCENT_NUMBER("100"),
-    );
+    verifyBodyWeightConfirmScreen("100", weightInLbs);
     submitSurvey(7000);
   });
 });

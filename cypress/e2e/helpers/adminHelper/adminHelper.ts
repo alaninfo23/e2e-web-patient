@@ -47,7 +47,7 @@ export const loginWebAdmin = (email: string, senha: string) => {
 
 export const getPreviousHour = () => {
   const currentTime = moment();
-  const newTime = currentTime.clone(); //.subtract(10, "minutes");
+  const newTime = currentTime.clone();
   const hours = newTime.format("h");
   const minutes = newTime.format("mm");
   const ampm = newTime.format("A");

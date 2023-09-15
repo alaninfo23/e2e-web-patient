@@ -55,11 +55,10 @@ export const SCHEDULE_TRIWEEKLY = (day: string, time: string) =>
 export const SCHEDULE_WEEKLY = (day: string, time: string) =>
   `Weekly on ${day} at ${time}`;
 
-export const OPTION_RADIO_EXCELLENT = 'input[value="Excellent"]';
-export const OPTION_RADIO_GOOD = 'input[value="Good"]';
-export const OPTION_RADIO_CONFUSING = 'input[value="Confusing"]';
+export const RADIO_OPTION_EXCELLENT = 'input[value="Excellent"]';
+export const RADIO_OPTION_GOOD = 'input[value="Good"]';
+export const RADIO_OPTION_CONFUSING = 'input[value="Confusing"]';
 
-export const currentDate = moment().format("MMM DD");
 export const verifySurveyCard = (surveyName: string, schedule: string) => {
   cy.contains("h6", surveyName);
   cy.contains("h6", schedule);
@@ -67,9 +66,13 @@ export const verifySurveyCard = (surveyName: string, schedule: string) => {
 
 export const verifyWeightScreenContent = (
   progressBarValue: string,
-  percentValue: string,
   surveyName: string,
 ) => {
+  cy.get(PROGRESS_BAR_VALUE_ID(progressBarValue)).should("exist");
+  cy.get(VALUE_PROGRESS_BAR_TEXT).should(
+    "contain",
+    PERCENT_NUMBER(progressBarValue),
+  );
   cy.contains(BUTTON, CLOSE).should("be.visible");
   cy.contains("h4", surveyName).should("be.visible");
 
@@ -83,21 +86,20 @@ export const verifyWeightScreenContent = (
   cy.get(VALUE_LBS_INPUT).should("have.attr", "placeholder", "000.0");
   cy.get(VALUE_TYPE).should("contain", "00.0");
   cy.contains(PLEASE_INSERT_VALUE_BETWEEN_60_700_LBS);
-
-  cy.get(PROGRESS_BAR_VALUE_ID(progressBarValue)).should("exist");
-  cy.get(VALUE_PROGRESS_BAR_TEXT).should(
-    "contain",
-    PERCENT_NUMBER(percentValue),
-  );
 };
 
-export const verifyOnboardingExperienceOptions = (
+export const verifyOnboardingExperienceScreen = (
   progressBarValue: string,
-  percentValue: string,
   surveyName: string,
 ) => {
   cy.contains(BUTTON, CLOSE).should("be.visible");
   cy.contains("h4", surveyName).should("be.visible");
+
+  cy.get(PROGRESS_BAR_VALUE_ID(progressBarValue)).should("exist");
+  cy.get(VALUE_PROGRESS_BAR_TEXT).should(
+    "contain",
+    PERCENT_NUMBER(progressBarValue),
+  );
 
   const currentDate = new Date();
   const formattedDateText = format(currentDate, "EEEE, MMMM dd");
@@ -105,25 +107,22 @@ export const verifyOnboardingExperienceOptions = (
 
   cy.contains(HOW_HAS_YOUR_ONBOARDING_EXPERIENCE_BEEN_SO_FAR);
   cy.contains(REQUIRED);
-
-  cy.get(PROGRESS_BAR_VALUE_ID(progressBarValue)).should("exist");
-  cy.get(VALUE_PROGRESS_BAR_TEXT).should(
-    "contain",
-    PERCENT_NUMBER(percentValue),
-  );
-
-  cy.get(OPTION_RADIO_EXCELLENT).should("exist").should("not.be.checked");
-  cy.get(OPTION_RADIO_GOOD).should("exist").should("not.be.checked");
-  cy.get(OPTION_RADIO_CONFUSING).should("exist").should("not.be.checked");
+  cy.get(RADIO_OPTION_EXCELLENT).should("exist").should("not.be.checked");
+  cy.get(RADIO_OPTION_GOOD).should("exist").should("not.be.checked");
+  cy.get(RADIO_OPTION_CONFUSING).should("exist").should("not.be.checked");
   cy.contains("button", NEXT).should("be.visible");
 };
 
 export const verifyPleaseProvideFeedbackScreen = (
   progressBarValue: string,
-  percentValue: string,
   surveyName: string,
 ) => {
   cy.contains(BUTTON, CLOSE).should("be.visible");
+  cy.get(PROGRESS_BAR_VALUE_ID(progressBarValue)).should("exist");
+  cy.get(VALUE_PROGRESS_BAR_TEXT).should(
+    "contain",
+    PERCENT_NUMBER(progressBarValue),
+  );
   cy.contains("h4", surveyName).should("be.visible");
 
   const currentDate = new Date();
@@ -133,11 +132,6 @@ export const verifyPleaseProvideFeedbackScreen = (
   cy.contains(PLEASE_PROVIDE_ANY_FEEDBACK);
   cy.contains(REQUIRED);
 
-  cy.get(PROGRESS_BAR_VALUE_ID(progressBarValue)).should("exist");
-  cy.get(VALUE_PROGRESS_BAR_TEXT).should(
-    "contain",
-    PERCENT_NUMBER(percentValue),
-  );
   cy.get(FEEDBACK_TEXT_INPUT)
     .should("be.visible")
     .and("have.attr", "placeholder", "");
@@ -148,10 +142,15 @@ export const verifyPleaseProvideFeedbackScreen = (
 
 export const verifyQuestionsNotBeenAnswered = (
   progressBarValue: string,
-  percentValue: string,
   surveyName: string,
 ) => {
   cy.contains(BUTTON, CLOSE).should("be.visible");
+
+  cy.get(PROGRESS_BAR_VALUE_ID(progressBarValue)).should("exist");
+  cy.get(VALUE_PROGRESS_BAR_TEXT).should(
+    "contain",
+    PERCENT_NUMBER(progressBarValue),
+  );
   cy.contains("h4", surveyName).should("be.visible");
 
   const currentDate = new Date();
@@ -160,11 +159,6 @@ export const verifyQuestionsNotBeenAnswered = (
 
   cy.contains(IF_YOU_HAVE_ANY_QUESTIONS_NOT_BEEN_ANSWERED);
 
-  cy.get(PROGRESS_BAR_VALUE_ID(progressBarValue)).should("exist");
-  cy.get(VALUE_PROGRESS_BAR_TEXT).should(
-    "contain",
-    PERCENT_NUMBER(percentValue),
-  );
   cy.get(QUESTIONS_TEXT_INPUT)
     .should("be.visible")
     .and("have.attr", "placeholder", "");
@@ -175,10 +169,14 @@ export const verifyQuestionsNotBeenAnswered = (
 
 export const verifyOnboardPracticeConfirmation = (
   progressBarValue: string,
-  percentValue: string,
   surveyName: string,
 ) => {
   cy.contains(BUTTON, CLOSE).should("be.visible");
+  cy.get(PROGRESS_BAR_VALUE_ID(progressBarValue)).should("exist");
+  cy.get(VALUE_PROGRESS_BAR_TEXT).should(
+    "contain",
+    PERCENT_NUMBER(progressBarValue),
+  );
   cy.contains("h4", surveyName).should("be.visible");
 
   const currentDate = new Date();
@@ -189,11 +187,6 @@ export const verifyOnboardPracticeConfirmation = (
   cy.contains(PLEASE_PROVIDE_ANY_FEEDBACK);
   cy.contains(IF_YOU_HAVE_ANY_QUESTIONS_NOT_BEEN_ANSWERED);
 
-  cy.get(PROGRESS_BAR_VALUE_ID(progressBarValue)).should("exist");
-  cy.get(VALUE_PROGRESS_BAR_TEXT).should(
-    "contain",
-    PERCENT_NUMBER(percentValue),
-  );
   cy.contains("button", PREVIOUS).should("be.visible");
   cy.contains("button", SUBMIT_SURVEY).should("be.visible");
 };
@@ -223,30 +216,30 @@ export const submitSurvey = (waitTimeMs: number) => {
 };
 
 export const verifyBodyWeightConfirmScreen = (
+  progressBarValue: string,
   weightInLbs: string,
-  progressBarImageSelector: string,
-  percentValue: string,
 ) => {
   cy.get(CONTAINED_PRIMARY_BUTTON).contains(NEXT).click();
 
+  cy.get(PROGRESS_BAR_VALUE_ID(progressBarValue)).should("exist");
+  cy.get(VALUE_PROGRESS_BAR_TEXT).should(
+    "contain",
+    PERCENT_NUMBER(progressBarValue),
+  );
   cy.contains(BUTTON, CLOSE).should("be.visible");
   cy.contains("h4", SERISD001_BODY_WEIGHT);
   cy.contains(WHAT_IS_YOUR_WEIGHT_TODAY);
   cy.contains(`${weightInLbs} lbs`);
   cy.contains("button", PREVIOUS).should("be.visible");
   cy.contains("button", SUBMIT_SURVEY).should("be.visible");
-
-  cy.get(progressBarImageSelector).should("exist");
-  cy.get(VALUE_PROGRESS_BAR_TEXT).should("contain", percentValue);
 };
 
 export const validateTitleOnScreen = (surveyTitle: string) => {
   cy.contains("h5", surveyTitle).should("be.visible");
 };
 export const verifyBodyCompositionScreenContent = (
+  progressBarValue: string,
   surveyTitle: string,
-  progressBarImageSelector: string,
-  percentValue: string,
 ) => {
   cy.contains(BUTTON, CLOSE).should("be.visible");
   cy.contains("h4", surveyTitle).should("be.visible");
@@ -262,17 +255,19 @@ export const verifyBodyCompositionScreenContent = (
   cy.get(VALUE_TYPE).should("contain", "%");
   cy.contains(PLEASE_INSERT_VALUE_BETWEEN_2_60_PERCENT);
 
-  cy.get(progressBarImageSelector).should("exist");
-  cy.get(VALUE_PROGRESS_BAR_TEXT).should("contain", percentValue);
+  cy.get(progressBarValue).should("exist");
+  cy.get(VALUE_PROGRESS_BAR_TEXT).should("contain", progressBarValue);
   cy.contains("button", PREVIOUS).should("be.visible");
 };
 
 export const verifyBodyCompositionConfirmScreen = (
+  progressBarValue: string,
   weightInLbs: string,
   bodyFatInPercent: string,
-  progressBarImageSelector: string,
-  percentValue: string,
 ) => {
+  cy.get(progressBarValue).should("exist");
+  cy.get(VALUE_PROGRESS_BAR_TEXT).should("contain", progressBarValue);
+
   cy.contains(BUTTON, CLOSE).should("be.visible");
   cy.contains("h4", NEEAR001_BODY_COMPOSITION);
   cy.contains(WHAT_IS_YOUR_WEIGHT_TODAY);
@@ -286,7 +281,4 @@ export const verifyBodyCompositionConfirmScreen = (
   cy.contains(`${bodyFatInPercent} %`);
   cy.contains("button", PREVIOUS).should("be.visible");
   cy.contains("button", SUBMIT_SURVEY).should("be.visible");
-
-  cy.get(progressBarImageSelector).should("exist");
-  cy.get(VALUE_PROGRESS_BAR_TEXT).should("contain", percentValue);
 };

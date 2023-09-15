@@ -15,7 +15,6 @@ import {
   verifyWeightScreenContent,
   SCHEDULE_ONCE,
   VALUE_LBS_INPUT,
-  PROGRESS_BAR_VALUE_ID,
   submitSurvey,
   CONTAINED_PRIMARY_BUTTON,
   verifyInputMessageError,
@@ -23,7 +22,6 @@ import {
   NEEAR001_BODY_COMPOSITION_ID,
   verifyBodyCompositionScreenContent,
   verifyBodyCompositionConfirmScreen,
-  currentDate,
 } from "../../../helpers/surveyHelper";
 
 import {
@@ -33,7 +31,6 @@ import {
 
 import {
   NEEAR001_BODY_COMPOSITION,
-  PERCENT_NUMBER,
   PLEASE_INSERT_VALUE_BETWEEN_60_700_LBS,
   WHAT_IS_YOUR_WEIGHT_TODAY,
   PLEASE_INSERT_VALUE_BETWEEN_2_60_PERCENT,
@@ -120,6 +117,7 @@ describe("Serabelisib - Body Composition", () => {
   it("Patient should be able to answer NEAAR-001 - Body Composition, #3991, #6369, #6370, #6371", () => {
     const weightInLbs = "165.0";
     const bodyFat = "30.0";
+    const currentDate = moment().format("MMM DD");
 
     verifySurveyCard(
       NEEAR001_BODY_COMPOSITION,
@@ -128,26 +126,17 @@ describe("Serabelisib - Body Composition", () => {
 
     cy.get(NEEAR001_BODY_COMPOSITION_ID).click();
 
-    verifyWeightScreenContent("33", "33", NEEAR001_BODY_COMPOSITION);
+    verifyWeightScreenContent("33", NEEAR001_BODY_COMPOSITION);
 
     cy.get(VALUE_LBS_INPUT).clear().type(weightInLbs);
     cy.get(CONTAINED_PRIMARY_BUTTON).contains(NEXT).click();
 
-    verifyBodyCompositionScreenContent(
-      NEEAR001_BODY_COMPOSITION,
-      PROGRESS_BAR_VALUE_ID("67"),
-      PERCENT_NUMBER("67"),
-    );
+    verifyBodyCompositionScreenContent("67", NEEAR001_BODY_COMPOSITION);
 
     cy.get(VALUE_LBS_INPUT).clear().type(bodyFat);
     cy.get(CONTAINED_PRIMARY_BUTTON).contains(NEXT).click();
 
-    verifyBodyCompositionConfirmScreen(
-      weightInLbs,
-      bodyFat,
-      PROGRESS_BAR_VALUE_ID("100"),
-      PERCENT_NUMBER("100"),
-    );
+    verifyBodyCompositionConfirmScreen("100", weightInLbs, bodyFat);
 
     submitSurvey(7000);
   });

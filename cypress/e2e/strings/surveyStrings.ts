@@ -23,6 +23,7 @@ export const PLEASE_INSERT_VALUE_BETWEEN_60_700_LBS: string =
   "Please insert a value between 65 - 700 lbs";
 export const PLEASE_INSERT_VALUE_BETWEEN_2_60_PERCENT: string =
   "Please insert a value between 2 - 60 %";
+export const PLEASE_SELECT_ONE_OPTION: string = "Please select one option";
 
 export const SUBMIT_SURVEY: string = "Submit Survey";
 export const SURVEY_COMPLETED: string = "Survey completed. Great job!";
