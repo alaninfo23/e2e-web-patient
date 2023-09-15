@@ -17,12 +17,10 @@ import {
   SCHEDULE_ONCE,
   SERISD001_BODY_WEIGHT_ID,
   VALUE_LBS_INPUT,
-  PROGRESS_BAR_VALUE_ID,
   submitSurvey,
   CONTAINED_PRIMARY_BUTTON,
   verifyInputMessageError,
   validateTitleOnScreen,
-  currentDate,
 } from "../../../helpers/surveyHelper";
 
 import {
@@ -32,8 +30,6 @@ import {
 
 import {
   SERISD001_BODY_WEIGHT,
-  ONCE,
-  PERCENT_NUMBER,
   PLEASE_INSERT_VALUE_BETWEEN_60_700_LBS,
   WHAT_IS_YOUR_WEIGHT_TODAY,
 } from "../../../strings/surveyStrings";
@@ -91,6 +87,7 @@ describe("Serabelisib - Body Weight", () => {
 
   it("Patient should be able to answer SER-ISD-001 - Body Weight survey, #3992, #6358, #6359, #6360", () => {
     const weightInLbs = "165.0";
+    const currentDate = moment().format("MMM DD");
 
     verifySurveyCard(
       SERISD001_BODY_WEIGHT,
