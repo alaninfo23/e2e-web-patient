@@ -113,7 +113,7 @@ export const verifyOnboardingExperienceScreen = (
   cy.contains("button", NEXT).should("be.visible");
 };
 
-export const verifyPleaseProvideFeedbackScreen = (
+export const verifyProvideFeedbackScreen = (
   progressBarValue: string,
   surveyName: string,
 ) => {
@@ -140,7 +140,7 @@ export const verifyPleaseProvideFeedbackScreen = (
   cy.contains("button", NEXT).should("be.visible");
 };
 
-export const verifyQuestionsNotBeenAnswered = (
+export const verifyQuestionsNotBeenAnsweredScreen = (
   progressBarValue: string,
   surveyName: string,
 ) => {
@@ -158,6 +158,7 @@ export const verifyQuestionsNotBeenAnswered = (
   cy.get(DATE_TEXT).should("contain", formattedDateText);
 
   cy.contains(IF_YOU_HAVE_ANY_QUESTIONS_NOT_BEEN_ANSWERED);
+  cy.contains(REQUIRED).should("not.exist");
 
   cy.get(QUESTIONS_TEXT_INPUT)
     .should("be.visible")
@@ -167,7 +168,7 @@ export const verifyQuestionsNotBeenAnswered = (
   cy.contains("button", NEXT).should("be.visible");
 };
 
-export const verifyOnboardPracticeConfirmation = (
+export const verifyOnboardPracticeConfirmationScreen = (
   progressBarValue: string,
   surveyName: string,
 ) => {

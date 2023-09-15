@@ -14,8 +14,8 @@ import {
   verifySurveyCard,
   ONBOARDING_PRACTICE_SURVEY_ID,
   verifyOnboardingExperienceScreen,
-  verifyPleaseProvideFeedbackScreen,
-  verifyQuestionsNotBeenAnswered,
+  verifyProvideFeedbackScreen,
+  verifyQuestionsNotBeenAnsweredScreen,
   checkAlertMessage,
   SCHEDULE_ONCE,
   submitSurvey,
@@ -24,7 +24,7 @@ import {
   RADIO_OPTION_EXCELLENT,
   FEEDBACK_TEXT_INPUT,
   QUESTIONS_TEXT_INPUT,
-  verifyOnboardPracticeConfirmation,
+  verifyOnboardPracticeConfirmationScreen,
 } from "../../../helpers/surveyHelper";
 
 import {
@@ -101,15 +101,15 @@ describe("notTrialSpecific - Onboarding Practice Survey", () => {
     cy.get(RADIO_OPTION_EXCELLENT).click();
     cy.get(CONTAINED_PRIMARY_BUTTON).contains(NEXT).click();
 
-    verifyPleaseProvideFeedbackScreen("50", ONBOARDING_PRACTICE_SURVEY);
+    verifyProvideFeedbackScreen("50", ONBOARDING_PRACTICE_SURVEY);
     cy.get(FEEDBACK_TEXT_INPUT).type(feedbackTextInput);
     cy.get(CONTAINED_PRIMARY_BUTTON).contains(NEXT).click();
 
-    verifyQuestionsNotBeenAnswered("75", ONBOARDING_PRACTICE_SURVEY);
+    verifyQuestionsNotBeenAnsweredScreen("75", ONBOARDING_PRACTICE_SURVEY);
     cy.get(QUESTIONS_TEXT_INPUT).type(questionsTextInput);
     cy.get(CONTAINED_PRIMARY_BUTTON).contains(NEXT).click();
 
-    verifyOnboardPracticeConfirmation("100", ONBOARDING_PRACTICE_SURVEY);
+    verifyOnboardPracticeConfirmationScreen("100", ONBOARDING_PRACTICE_SURVEY);
 
     cy.contains("h6", "Excellent");
     cy.contains("h6", feedbackTextInput);
@@ -132,14 +132,14 @@ describe("notTrialSpecific - Onboarding Practice Survey", () => {
     cy.get(RADIO_OPTION_EXCELLENT).click();
     cy.get(CONTAINED_PRIMARY_BUTTON).contains(NEXT).click();
 
-    verifyPleaseProvideFeedbackScreen("50", ONBOARDING_PRACTICE_SURVEY);
+    verifyProvideFeedbackScreen("50", ONBOARDING_PRACTICE_SURVEY);
     cy.get(FEEDBACK_TEXT_INPUT).type(feedbackTextInput);
     cy.get(CONTAINED_PRIMARY_BUTTON).contains(NEXT).click();
 
-    verifyQuestionsNotBeenAnswered("75", ONBOARDING_PRACTICE_SURVEY);
+    verifyQuestionsNotBeenAnsweredScreen("75", ONBOARDING_PRACTICE_SURVEY);
     cy.get(CONTAINED_PRIMARY_BUTTON).contains(NEXT).click();
 
-    verifyOnboardPracticeConfirmation("100", ONBOARDING_PRACTICE_SURVEY);
+    verifyOnboardPracticeConfirmationScreen("100", ONBOARDING_PRACTICE_SURVEY);
 
     cy.contains("h6", "Excellent");
     cy.contains("h6", feedbackTextInput);
