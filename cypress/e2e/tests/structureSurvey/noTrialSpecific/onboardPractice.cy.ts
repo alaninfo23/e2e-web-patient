@@ -34,15 +34,17 @@ import {
 
 import {
   ONBOARDING_PRACTICE_SURVEY,
-  THIS_FIELD_CANNOT_BE_LEFT_BLANK,
   PLEASE_SELECT_ONE_OPTION,
   HOW_HAS_YOUR_ONBOARDING_EXPERIENCE_BEEN_SO_FAR,
 } from "../../../strings/surveyStrings";
 
 import { SURVEY_CARD_BUTTON } from "../../../helpers/homeHelper";
-import { NEXT } from "../../../helpers/generalStrings";
+import {
+  NEXT,
+  THIS_FIELD_CANNOT_BE_LEFT_BLANK,
+} from "../../../helpers/generalStrings";
 
-describe("notTrialSpecific - Onboarding Practice Survey", () => {
+describe("nonTrialSpecific - Onboarding Practice Survey", () => {
   beforeEach(() => {
     clearCache();
     loginWebAdmin(Cypress.env("emailAdmin"), Cypress.env("passwordAdmin"));

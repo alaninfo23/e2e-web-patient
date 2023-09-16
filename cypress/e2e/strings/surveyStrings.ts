@@ -8,8 +8,6 @@ export const PLEASE_PROVIDE_ANY_FEEDBACK: string =
 export const IF_YOU_HAVE_ANY_QUESTIONS_NOT_BEEN_ANSWERED: string =
   "If you have any questions that have not been answered yet in the onboarding, please let us know here and we will address them when we meet with you one-on-one.";
 
-export const THIS_FIELD_CANNOT_BE_LEFT_BLANK: string =
-  "This field cannot be left blank.";
 export const OPEN: string = "OPEN";
 export const CLOSE: string = "Close";
 export const WHAT_IS_YOUR_WEIGHT_TODAY: string = "What is your weight today?";
