@@ -8,7 +8,6 @@ import {
   assignSurveyToPatient,
   unassignSurveyToPatient,
   calculatedTime,
-  getPreviousHour,
 } from "../../../helpers/adminHelper/adminHelper";
 
 import {
