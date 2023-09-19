@@ -33,7 +33,6 @@ export const TAB_HOME_ID: string = '[data-testid="TAB_HOME"]';
 export const clearCache = () => {
   cy.clearCookies();
   cy.clearLocalStorage();
-  cy.reload();
 };
 
 export const loginWebAdmin = (email: string, senha: string) => {
@@ -45,18 +44,14 @@ export const loginWebAdmin = (email: string, senha: string) => {
   cy.get(LOGIN_BUTTON).click();
 };
 
-export const getPreviousHour = () => {
+export const getPreviousHour = (): string => {
   const currentTime = moment();
   const newTime = currentTime.clone().subtract(1, "hour");
-  const hours = newTime.format("h");
-  const minutes = newTime.format("mm");
-  const ampm = newTime.format("A");
-  const formattedTime = `${hours.padStart(2, "0")}:${minutes.padStart(
-    2,
-    "0",
-  )} ${ampm}`;
+
+  const formattedTime = newTime.format(`hh:mm A`);
   return formattedTime;
 };
+
 export const calculatedTime = getPreviousHour();
 
 export const assignSurveyToPatient = (

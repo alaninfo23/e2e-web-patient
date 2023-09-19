@@ -7,7 +7,6 @@ export const REMEMBER_ME_CHECKBOX: string =
 export const LOGIN_BUTTON: string = 'button[type="submit"]';
 export const CREATE_NEW_ACCOUNT_LINK: string = 'a[href="/create-account"]';
 export const SHOW_HIDDEN_BUTTON: string = "button[type='button']";
-export const MSG_LOGIN_INCORRECT_ALERT: string = ".MuiAlert-message";
 
 export const OPEN_MENU_ICON_ID: string = '[data-testid="OPEN_MENU_ICON"]';
 export const LOG_OUT_OPTION_ID: string = '[data-testid="LOG_OUT_OPTION"]';

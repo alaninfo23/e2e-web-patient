@@ -17,7 +17,6 @@ import {
   SCHEDULE_ONCE,
   SERISD001_BODY_WEIGHT_ID,
   VALUE_LBS_INPUT,
-  PROGRESS_BAR_VALUE_ID,
   submitSurvey,
   CONTAINED_PRIMARY_BUTTON,
   verifyInputMessageError,
@@ -31,8 +30,6 @@ import {
 
 import {
   SERISD001_BODY_WEIGHT,
-  ONCE,
-  PERCENT_NUMBER,
   PLEASE_INSERT_VALUE_BETWEEN_60_700_LBS,
   WHAT_IS_YOUR_WEIGHT_TODAY,
 } from "../../../strings/surveyStrings";
@@ -90,24 +87,19 @@ describe("Serabelisib - Body Weight", () => {
 
   it("Patient should be able to answer SER-ISD-001 - Body Weight survey, #3992, #6358, #6359, #6360", () => {
     const weightInLbs = "165.0";
-    const currentDate = moment().format("MMM D");
+    const currentDate = moment().format("MMM DD");
 
     verifySurveyCard(
       SERISD001_BODY_WEIGHT,
-      ONCE,
       SCHEDULE_ONCE(currentDate, calculatedTime),
     );
 
     cy.get(SERISD001_BODY_WEIGHT_ID).click();
 
-    verifyWeightScreenContent("50", "50", SERISD001_BODY_WEIGHT);
+    verifyWeightScreenContent("50", SERISD001_BODY_WEIGHT);
     cy.get(VALUE_LBS_INPUT).clear().type(weightInLbs);
 
-    verifyBodyWeightConfirmScreen(
-      weightInLbs,
-      PROGRESS_BAR_VALUE_ID("100"),
-      PERCENT_NUMBER("100"),
-    );
+    verifyBodyWeightConfirmScreen("100", weightInLbs);
     submitSurvey();
   });
 });
