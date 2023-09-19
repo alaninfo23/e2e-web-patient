@@ -138,6 +138,6 @@ describe("Serabelisib - Body Composition", () => {
 
     verifyBodyCompositionConfirmScreen("100", weightInLbs, bodyFat);
 
-    submitSurvey(7000);
+    submitSurvey();
   });
 });

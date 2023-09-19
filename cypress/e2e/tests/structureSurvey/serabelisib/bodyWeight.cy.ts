@@ -100,6 +100,6 @@ describe("Serabelisib - Body Weight", () => {
     cy.get(VALUE_LBS_INPUT).clear().type(weightInLbs);
 
     verifyBodyWeightConfirmScreen("100", weightInLbs);
-    submitSurvey(7000);
+    submitSurvey();
   });
 });

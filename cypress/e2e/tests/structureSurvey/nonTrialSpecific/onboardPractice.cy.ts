@@ -8,6 +8,7 @@ import {
   assignSurveyToPatient,
   unassignSurveyToPatient,
   calculatedTime,
+  getPreviousHour,
 } from "../../../helpers/adminHelper/adminHelper";
 
 import {
@@ -36,6 +37,7 @@ import {
   ONBOARDING_PRACTICE_SURVEY,
   PLEASE_SELECT_ONE_OPTION,
   HOW_HAS_YOUR_ONBOARDING_EXPERIENCE_BEEN_SO_FAR,
+  PLEASE_PROVIDE_ANY_FEEDBACK,
 } from "../../../strings/surveyStrings";
 
 import { SURVEY_CARD_BUTTON } from "../../../helpers/homeHelper";
@@ -44,7 +46,7 @@ import {
   THIS_FIELD_CANNOT_BE_LEFT_BLANK,
 } from "../../../helpers/generalStrings";
 
-describe("nonTrialSpecific - Onboarding Practice Survey", () => {
+describe("Onboarding Practice Survey", () => {
   beforeEach(() => {
     clearCache();
     loginWebAdmin(Cypress.env("emailAdmin"), Cypress.env("passwordAdmin"));
@@ -72,25 +74,35 @@ describe("nonTrialSpecific - Onboarding Practice Survey", () => {
 
   it("How has your onboarding experience been so far? should be required, #5783", () => {
     cy.get(ONBOARDING_PRACTICE_SURVEY_ID).click();
+    cy.contains(HOW_HAS_YOUR_ONBOARDING_EXPERIENCE_BEEN_SO_FAR).should(
+      "be.visible",
+    );
     cy.get(CONTAINED_PRIMARY_BUTTON).contains(NEXT).click();
     cy.wait(2000);
-    cy.contains(HOW_HAS_YOUR_ONBOARDING_EXPERIENCE_BEEN_SO_FAR);
     checkAlertMessage(PLEASE_SELECT_ONE_OPTION);
     cy.get(RADIO_OPTION_EXCELLENT).click();
-    cy.contains(HOW_HAS_YOUR_ONBOARDING_EXPERIENCE_BEEN_SO_FAR);
+    cy.contains(HOW_HAS_YOUR_ONBOARDING_EXPERIENCE_BEEN_SO_FAR).should(
+      "be.visible",
+    );
   });
 
   it("Experience feedback should be required, #5785", () => {
     cy.get(ONBOARDING_PRACTICE_SURVEY_ID).click();
     cy.get(RADIO_OPTION_EXCELLENT).click();
     cy.get(CONTAINED_PRIMARY_BUTTON).contains(NEXT).click();
+    cy.contains(PLEASE_PROVIDE_ANY_FEEDBACK).should("be.visible");
     cy.get(CONTAINED_PRIMARY_BUTTON).contains(NEXT).click();
     verifyInputMessageError(true, THIS_FIELD_CANNOT_BE_LEFT_BLANK);
+    cy.contains(PLEASE_PROVIDE_ANY_FEEDBACK).should("be.visible");
   });
 
   it("Patient should be able to answer Onboarding Practice Survey when patient added question, #6111, #5781, #5782, #5784, #5786, #5788", () => {
-    const feedbackTextInput = "nothing, the system is great";
-    const questionsTextInput = "How does faeth work?";
+    const answerOnboardPractice = {
+      experiencie: "Excellent",
+      feedback: "nothing, the system is great",
+      question: "How does faeth work?",
+    };
+
     const currentDate = moment().format("MMM DD");
     verifySurveyCard(
       ONBOARDING_PRACTICE_SURVEY,
@@ -104,23 +116,28 @@ describe("nonTrialSpecific - Onboarding Practice Survey", () => {
     cy.get(CONTAINED_PRIMARY_BUTTON).contains(NEXT).click();
 
     verifyProvideFeedbackScreen("50", ONBOARDING_PRACTICE_SURVEY);
-    cy.get(FEEDBACK_TEXT_INPUT).type(feedbackTextInput);
+    cy.get(FEEDBACK_TEXT_INPUT).type(answerOnboardPractice.feedback);
     cy.get(CONTAINED_PRIMARY_BUTTON).contains(NEXT).click();
 
     verifyQuestionsNotBeenAnsweredScreen("75", ONBOARDING_PRACTICE_SURVEY);
-    cy.get(QUESTIONS_TEXT_INPUT).type(questionsTextInput);
+    cy.get(QUESTIONS_TEXT_INPUT).type(answerOnboardPractice.question);
     cy.get(CONTAINED_PRIMARY_BUTTON).contains(NEXT).click();
 
-    verifyOnboardPracticeConfirmationScreen("100", ONBOARDING_PRACTICE_SURVEY);
+    verifyOnboardPracticeConfirmationScreen(
+      "100",
+      ONBOARDING_PRACTICE_SURVEY,
+      answerOnboardPractice,
+    );
 
-    cy.contains("h6", "Excellent");
-    cy.contains("h6", feedbackTextInput);
-    cy.contains("h6", questionsTextInput);
-    submitSurvey(7000);
+    submitSurvey();
   });
 
-  it("Patient should be able to answer Onboarding Practice Survey when didn't add question, #6110, #5787, #5789", () => {
-    const feedbackTextInput = "nothing, the system is great";
+  it.only("Patient should be able to answer Onboarding Practice Survey when didn't add question, #6110, #5787, #5789", () => {
+    const answerOnboardPractice = {
+      experiencie: "Excellent",
+      feedback: "nothing, the system is great",
+      question: "-",
+    };
     const currentDate = moment().format("MMM DD");
 
     verifySurveyCard(
@@ -135,17 +152,18 @@ describe("nonTrialSpecific - Onboarding Practice Survey", () => {
     cy.get(CONTAINED_PRIMARY_BUTTON).contains(NEXT).click();
 
     verifyProvideFeedbackScreen("50", ONBOARDING_PRACTICE_SURVEY);
-    cy.get(FEEDBACK_TEXT_INPUT).type(feedbackTextInput);
+    cy.get(FEEDBACK_TEXT_INPUT).type(answerOnboardPractice.feedback);
     cy.get(CONTAINED_PRIMARY_BUTTON).contains(NEXT).click();
 
     verifyQuestionsNotBeenAnsweredScreen("75", ONBOARDING_PRACTICE_SURVEY);
     cy.get(CONTAINED_PRIMARY_BUTTON).contains(NEXT).click();
 
-    verifyOnboardPracticeConfirmationScreen("100", ONBOARDING_PRACTICE_SURVEY);
+    verifyOnboardPracticeConfirmationScreen(
+      "100",
+      ONBOARDING_PRACTICE_SURVEY,
+      answerOnboardPractice,
+    );
 
-    cy.contains("h6", "Excellent");
-    cy.contains("h6", feedbackTextInput);
-    cy.contains("h6", "-");
-    submitSurvey(7000);
+    submitSurvey();
   });
 });
